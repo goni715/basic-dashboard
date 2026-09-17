@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { ShieldCheck, HeartPulse, Eye, ArrowRight, Lock, Mail, KeyRound } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -9,6 +13,35 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [adminEmail, setAdminEmail] = useState("admin@gmail.com");
+  const [adminPassword, setAdminPassword] = useState("123456");
+  
+  const [doctorEmail, setDoctorEmail] = useState("doctor@gmail.com");
+  const [doctorPassword, setDoctorPassword] = useState("123456");
+
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (adminEmail === "admin@gmail.com" && adminPassword === "123456") {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("role", "admin");
+      router.push("/");
+    } else {
+      alert("Invalid admin credentials");
+    }
+  };
+
+  const handleDoctorLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (doctorEmail === "doctor@gmail.com" && doctorPassword === "123456") {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("role", "doctor");
+      router.push("/");
+    } else {
+      alert("Invalid doctor credentials");
+    }
+  };
+
   return (
     <div className="w-full">
       <Tabs defaultValue="admin" className="w-full">
@@ -54,13 +87,15 @@ export default function LoginPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-2 pb-6">
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleAdminLogin}>
                 <div className="space-y-2 text-left">
                   <Label htmlFor="admin-email" className="text-xs font-semibold text-slate-700">Email Address</Label>
                   <Input 
                     id="admin-email" 
                     type="email" 
-                    placeholder="admin@3smedicare.com" 
+                    placeholder="admin@gmail.com" 
+                    value={adminEmail}
+                    onChange={(e) => setAdminEmail(e.target.value)}
                     className="h-11 bg-slate-50/50 border-slate-200 focus-visible:ring-blue-500/30 transition-all rounded-lg"
                     required 
                   />
@@ -71,7 +106,9 @@ export default function LoginPage() {
                     <Input 
                       id="admin-password" 
                       type="password" 
-                      placeholder="Enter password" 
+                      placeholder="123456" 
+                      value={adminPassword}
+                      onChange={(e) => setAdminPassword(e.target.value)}
                       className="h-11 bg-slate-50/50 border-slate-200 pr-10 focus-visible:ring-blue-500/30 transition-all rounded-lg"
                       required 
                     />
@@ -121,7 +158,7 @@ export default function LoginPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-2 pb-6">
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleDoctorLogin}>
                 <div className="space-y-2 text-left relative">
                   <Label htmlFor="doctor-email" className="text-xs font-semibold text-slate-700">Email Address</Label>
                   <div className="relative">
@@ -130,6 +167,8 @@ export default function LoginPage() {
                       id="doctor-email" 
                       type="email" 
                       placeholder="doctor@gmail.com" 
+                      value={doctorEmail}
+                      onChange={(e) => setDoctorEmail(e.target.value)}
                       className="h-11 pl-9 bg-slate-50/50 border-slate-200 focus-visible:ring-teal-500/30 transition-all rounded-lg"
                       required 
                     />
@@ -143,6 +182,8 @@ export default function LoginPage() {
                       id="doctor-password" 
                       type="password" 
                       placeholder="123456" 
+                      value={doctorPassword}
+                      onChange={(e) => setDoctorPassword(e.target.value)}
                       className="h-11 pl-9 pr-10 bg-slate-50/50 border-slate-200 focus-visible:ring-teal-500/30 transition-all rounded-lg"
                       required 
                     />
@@ -171,9 +212,8 @@ export default function LoginPage() {
                   type="submit" 
                   className="w-full h-11 text-sm font-medium bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white shadow-md hover:shadow-lg transition-all rounded-lg gap-2"
                 >
-                  <Link href="/doctor">
-                    Login
-                  </Link>
+                  Login
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </form>
             </CardContent>
