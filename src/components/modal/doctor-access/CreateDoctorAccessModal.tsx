@@ -28,13 +28,11 @@ const CreateDoctorAccessModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white rounded-lg h-10 shadow-sm shadow-blue-500/20 px-4">
+      <DialogTrigger render={<Button className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white rounded-lg h-10 shadow-sm shadow-blue-500/20 px-4" />}>
           <Plus className="mr-2 h-4 w-4" />
           Add Doctor Access
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] p-6 rounded-2xl gap-6" onInteractOutside={(e) => e.preventDefault()}>
+        </DialogTrigger>
+      <DialogContent className="sm:max-w-[500px] p-6 rounded-2xl gap-6">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Add Doctor Access</DialogTitle>
           <DialogDescription className="text-slate-500">

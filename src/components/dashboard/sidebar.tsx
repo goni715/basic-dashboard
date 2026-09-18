@@ -68,13 +68,11 @@ export function Sidebar({ className }: { className?: string }) {
         <Button 
           variant="ghost" 
           className="w-full justify-start gap-3 text-red-500 hover:bg-red-50 hover:text-red-600"
-          asChild
-        >
-          <Link href="/login">
+          
+         render={<Link href="/login" />}>
             <LogOut className="h-4 w-4" />
             Logout
-          </Link>
-        </Button>
+          </Button>
       </div>
     </div>
   )
@@ -88,12 +86,10 @@ export function Sidebar({ className }: { className?: string }) {
 
       {/* Mobile Sidebar */}
       <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="lg:hidden shrink-0">
+        <SheetTrigger render={<Button variant="ghost" size="icon" className="lg:hidden shrink-0" />}>
             <Menu className="h-5 w-5" />
             <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
+          </SheetTrigger>
         <SheetContent side="left" className="w-64 p-0">
           <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
           <NavContent />

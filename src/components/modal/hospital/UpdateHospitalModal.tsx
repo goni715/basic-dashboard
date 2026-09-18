@@ -21,13 +21,13 @@ const UpdateHospitalModal = ({ hospital }: { hospital: any }) => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
+        <DialogTrigger>
           <Button size="sm" variant="outline" className="h-8 border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold rounded-lg px-2.5 shadow-sm">
             <Edit className="mr-1.5 h-3.5 w-3.5" />
             Edit
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[700px] p-0 rounded-2xl gap-0 overflow-hidden" onInteractOutside={(e) => e.preventDefault()}>
+        <DialogContent className="sm:max-w-[700px] p-0 rounded-2xl gap-0 overflow-hidden">
           <div className="p-6 pb-4 border-b border-slate-100">
             <DialogTitle className="text-xl font-bold">Edit Hospital</DialogTitle>
             <DialogDescription className="text-slate-500 mt-1.5">

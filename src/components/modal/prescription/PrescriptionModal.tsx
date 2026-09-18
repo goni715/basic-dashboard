@@ -25,12 +25,10 @@ const PrescriptionModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="flex-1 sm:flex-none border-blue-200 text-blue-600 hover:bg-blue-50 h-11 px-6 rounded-xl font-semibold shadow-sm gap-2">
+      <DialogTrigger render={<Button variant="outline" className="flex-1 sm:flex-none border-blue-200 text-blue-600 hover:bg-blue-50 h-11 px-6 rounded-xl font-semibold shadow-sm gap-2" />}>
           <Eye className="h-4 w-4" />
           Preview Prescription
-        </Button>
-      </DialogTrigger>
+        </DialogTrigger>
       <DialogContent className="max-w-2xl p-0 overflow-hidden border-0 bg-white rounded-2xl shadow-xl">
         <DialogHeader className="px-6 py-4 border-b border-slate-100">
           <DialogTitle className="text-sm font-bold text-slate-900">

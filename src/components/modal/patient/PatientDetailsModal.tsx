@@ -20,12 +20,10 @@ const PatientDetailsModal = ({ patient }: { patient: any }) => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+        <DialogTrigger render={<Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg" />}>
             <Eye className="h-4 w-4" />
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] p-0 rounded-2xl gap-0 overflow-hidden" onInteractOutside={(e) => e.preventDefault()}>
+          </DialogTrigger>
+        <DialogContent className="sm:max-w-[500px] p-0 rounded-2xl gap-0 overflow-hidden">
           <div className="p-6 pb-4 border-b border-slate-100">
             <DialogTitle className="text-xl font-bold">Patient Details</DialogTitle>
             <DialogDescription className="text-slate-500 mt-1.5">

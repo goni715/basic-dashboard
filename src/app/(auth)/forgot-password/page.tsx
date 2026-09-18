@@ -34,15 +34,15 @@ export default function ForgotPasswordPage() {
             Send Reset Link
           </Button>
 
-          <Button
-            variant="outline"
-            asChild
-            className="w-full h-11 text-sm font-medium border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all rounded-lg"
-          >
-            <Link href="/login">
+          <Link href="/login" className="block w-full">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-11 text-sm font-medium border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all rounded-lg"
+            >
               Back to Login
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       </form>
     </AuthCard>

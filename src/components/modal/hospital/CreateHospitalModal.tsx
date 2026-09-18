@@ -21,13 +21,13 @@ const CreateHospitalModal = () => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
+        <DialogTrigger>
           <Button className="w-full md:w-auto shrink-0 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white rounded-lg h-10 shadow-sm shadow-blue-500/20 px-5">
             <Plus className="mr-2 h-4 w-4" />
             Add Hospital
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[700px] p-0 rounded-2xl gap-0 overflow-hidden" onInteractOutside={(e) => e.preventDefault()}>
+        <DialogContent className="sm:max-w-[700px] p-0 rounded-2xl gap-0 overflow-hidden">
           <div className="p-6 pb-4 border-b border-slate-100">
             <DialogTitle className="text-xl font-bold">Add Hospital</DialogTitle>
             <DialogDescription className="text-slate-500 mt-1.5">

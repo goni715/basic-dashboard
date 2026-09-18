@@ -1,0 +1,63 @@
+import { IAdminHotelStat, IAdminHotel } from "@/types/admin-hotel.type";
+
+export const DUMMY_ADMIN_HOTEL_STATS: IAdminHotelStat[] = [
+  { title: "Total Hotels", value: "4", description: "All hotel records" },
+  { title: "Published Hotels", value: "3", description: "Visible in patient app" },
+  { title: "Near Hospitals", value: "31", description: "Mapped to hospitals" },
+  { title: "Draft Hotels", value: "1", description: "Need review" },
+];
+
+export const DUMMY_ADMIN_HOTELS: IAdminHotel[] = [
+  {
+    id: "1",
+    name: "Pan Pacific Sonargaon",
+    type: "Luxury",
+    city: "Dhaka",
+    country: "Bangladesh",
+    nearbyHospital: "United Hospital",
+    distance: "1.2 km",
+    price: "৳12,500",
+    rating: "4.8",
+    amenities: ["Free WiFi", "Restaurant", "+1"],
+    status: "Published",
+  },
+  {
+    id: "2",
+    name: "Radisson Blu Dhaka Water Garden",
+    type: "Premium",
+    city: "Dhaka",
+    country: "Bangladesh",
+    nearbyHospital: "Apollo Hospitals",
+    distance: "2.5 km",
+    price: "৳9,800",
+    rating: "4.6",
+    amenities: ["Free WiFi", "Airport Transfer", "+1"],
+    status: "Published",
+  },
+  {
+    id: "3",
+    name: "The Westin Dhaka",
+    type: "Luxury",
+    city: "Dhaka",
+    country: "Bangladesh",
+    nearbyHospital: "Square Hospital",
+    distance: "800 m",
+    price: "৳15,000",
+    rating: "4.9",
+    amenities: ["Fitness Center", "Restaurant", "+1"],
+    status: "Published",
+  },
+  {
+    id: "4",
+    name: "Hotel Sarina Dhaka",
+    type: "Mid Range",
+    city: "Dhaka",
+    country: "Bangladesh",
+    nearbyHospital: "Labaid Hospital",
+    distance: "1.5 km",
+    price: "৳6,500",
+    rating: "4.4",
+    amenities: ["Free WiFi", "Air Conditioning"],
+    status: "Draft",
+  },
+];

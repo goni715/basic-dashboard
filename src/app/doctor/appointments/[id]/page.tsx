@@ -19,12 +19,10 @@ export default function AppointmentDetailsPage({ params }: { params: { id: strin
     <div className="space-y-6 pb-12">
       {/* Top Nav */}
       <div>
-        <Button variant="link" className="text-slate-500 hover:text-slate-800 p-0 h-auto gap-2" asChild>
-          <Link href="/doctor/appointments">
+        <Button variant="link" className="text-slate-500 hover:text-slate-800 p-0 h-auto gap-2"  render={<Link href="/doctor/appointments" />}>
             <ArrowLeft className="h-4 w-4" />
             Back to Appointments
-          </Link>
-        </Button>
+          </Button>
       </div>
 
       {/* Header Info */}
@@ -183,11 +181,9 @@ export default function AppointmentDetailsPage({ params }: { params: { id: strin
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button variant="ghost" size="sm" className="text-blue-600 hover:bg-blue-50 font-semibold h-8" asChild>
-                        <Link href="/doctor/reports">
+                      <Button variant="ghost" size="sm" className="text-blue-600 hover:bg-blue-50 font-semibold h-8"  render={<Link href="/doctor/reports" />}>
                           <Eye className="mr-1.5 h-3.5 w-3.5" /> View
-                        </Link>
-                      </Button>
+                        </Button>
                       <Button variant="ghost" size="sm" className="text-slate-600 hover:bg-slate-50 font-semibold h-8">
                         <Download className="mr-1.5 h-3.5 w-3.5" /> Download
                       </Button>

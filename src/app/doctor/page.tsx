@@ -1,6 +1,6 @@
 import * as React from "react"
 import Link from "next/link"
-import { Calendar, Clock, Users, FileText, FileSignature, FileHeart, ChevronRight, Video, Hospital, Eye } from "lucide-react"
+import { ChevronRight, Video, Hospital, Eye } from "lucide-react"
 
 import { WelcomeBanner } from "@/components/dashboard/welcome-banner"
 import { StatCard } from "@/components/dashboard/stat-card"
@@ -45,12 +45,10 @@ export default function DoctorDashboard() {
             <CardTitle className="text-lg font-bold">Today's Appointments</CardTitle>
             <p className="text-sm text-slate-500 font-medium">Scheduled for today</p>
           </div>
-          <Button variant="ghost" className="text-blue-600 font-semibold text-sm hover:bg-blue-50" asChild>
-            <Link href="/doctor/appointments">
+          <Button variant="ghost" className="text-blue-600 font-semibold text-sm hover:bg-blue-50"  render={<Link href="/doctor/appointments" />}>
               View all
               <ChevronRight className="ml-1 h-4 w-4" />
-            </Link>
-          </Button>
+            </Button>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
@@ -96,12 +94,10 @@ export default function DoctorDashboard() {
                   </TableCell>
                   <TableCell className="text-right px-6">
                     <div className="flex justify-end gap-2">
-                      <Button size="sm" variant="outline" className="border-slate-200 text-blue-600 font-semibold hover:bg-blue-50" asChild>
-                        <Link href={`/doctor/appointments/${apt.id}`}>
+                      <Button size="sm" variant="outline" className="border-slate-200 text-blue-600 font-semibold hover:bg-blue-50"  render={<Link href={`/doctor/appointments/${apt.id}`} />}>
                           <Eye className="mr-1.5 h-3.5 w-3.5" />
                           View
-                        </Link>
-                      </Button>
+                        </Button>
                       {apt.type.includes('Video') && (
                         <Button size="sm" className="bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-semibold shadow-sm">
                           <Video className="mr-1.5 h-3.5 w-3.5" />
