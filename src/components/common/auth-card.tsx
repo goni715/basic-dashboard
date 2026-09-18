@@ -9,7 +9,7 @@ interface AuthCardProps extends React.ComponentProps<typeof Card> {
   footer?: React.ReactNode
 }
 
-export function AuthCard({ className, icon, title, description, footer, children, ...props }: AuthCardProps) {
+export default function ({ className, icon, title, description, footer, children, ...props }: AuthCardProps) {
   return (
     <Card className={cn("w-full shadow-lg border-0 bg-white/95 backdrop-blur-sm pt-6 pb-2", className)} {...props}>
       <CardHeader className="space-y-4 items-center text-center">

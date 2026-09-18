@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { DUMMY_ADMIN_HOTEL_STATS, DUMMY_ADMIN_HOTELS } from "@/data/admin-hotel.data";
-import { AdminHotelStats } from "@/components/admin/hotels/AdminHotelStats";
-import { AdminHotelFilters } from "@/components/admin/hotels/AdminHotelFilters";
-import { AdminHotelTable } from "@/components/admin/hotels/AdminHotelTable";
+import AdminHotelStats from "@/components/admin/hotels/AdminHotelStats";
+import AdminHotelFilters from "@/components/admin/hotels/AdminHotelFilters";
+import AdminHotelTable from "@/components/admin/hotels/AdminHotelTable";
 
 export default function AdminHotelsPage() {
   const [hotels, setHotels] = useState(DUMMY_ADMIN_HOTELS);

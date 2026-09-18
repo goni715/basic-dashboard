@@ -53,7 +53,7 @@ const activities = [
   },
 ];
 
-export function RecentActivities() {
+export default function () {
   return (
     <Card className="rounded-2xl border-none shadow-sm h-full">
       <CardHeader className="pb-4">

@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import AddHealthTipModal from "@/components/modal/health-tip/AddHealthTipModal";
 
-export function HealthTipFilters() {
+export default function () {
   return (
     <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
       <Input 

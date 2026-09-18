@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import CreateDoctorAccessModal from "@/components/modal/doctor-access/CreateDoctorAccessModal";
 
-export function DoctorAccessFilters() {
+export default function () {
   return (
     <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
       <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">

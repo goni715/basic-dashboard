@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { DUMMY_HOSPITALS } from "@/data/hospital.data";
-import { HospitalStats } from "@/components/admin/hospitals/HospitalStats";
-import { HospitalFilters } from "@/components/admin/hospitals/HospitalFilters";
-import { HospitalTable } from "@/components/admin/hospitals/HospitalTable";
+import HospitalStats from "@/components/admin/hospitals/HospitalStats";
+import HospitalFilters from "@/components/admin/hospitals/HospitalFilters";
+import HospitalTable from "@/components/admin/hospitals/HospitalTable";
 
 export default function HospitalManagementPage() {
   const [hospitals, setHospitals] = useState(DUMMY_HOSPITALS);

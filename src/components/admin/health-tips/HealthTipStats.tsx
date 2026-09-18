@@ -4,7 +4,7 @@ interface HealthTipStatsProps {
   stats: IAdminHealthTipStat[];
 }
 
-export function HealthTipStats({ stats }: HealthTipStatsProps) {
+export default function ({ stats }: HealthTipStatsProps) {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat, i) => (

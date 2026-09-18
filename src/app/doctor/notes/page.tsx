@@ -1,7 +1,7 @@
 import * as React from "react"
-import { NoteHeader } from "@/components/doctor/notes/NoteHeader"
-import { NoteLeftColumn } from "@/components/doctor/notes/NoteLeftColumn"
-import { NoteRightColumn } from "@/components/doctor/notes/NoteRightColumn"
+import NoteHeader from "@/components/doctor/notes/NoteHeader"
+import NoteLeftColumn from "@/components/doctor/notes/NoteLeftColumn"
+import NoteRightColumn from "@/components/doctor/notes/NoteRightColumn"
 
 export default function ConsultationNotesPage() {
   return (

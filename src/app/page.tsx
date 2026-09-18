@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DashboardLayout } from "@/components/common/dashboard-layout";
-import { WelcomeBanner } from "@/components/admin/welcome-banner";
-import { StatsGrid } from "@/components/admin/stats-grid";
-import { ActivityChart } from "@/components/admin/activity-chart";
-import { ModuleOverview } from "@/components/admin/module-overview";
-import { RecentActivities } from "@/components/admin/recent-activities";
-import { PendingActions } from "@/components/admin/pending-actions";
-import { QuickActions } from "@/components/admin/quick-actions";
+import DashboardLayout from "@/components/common/dashboard-layout";
+import WelcomeBanner from "@/components/admin/welcome-banner";
+import StatsGrid from "@/components/admin/stats-grid";
+import ActivityChart from "@/components/admin/activity-chart";
+import ModuleOverview from "@/components/admin/module-overview";
+import RecentActivities from "@/components/admin/recent-activities";
+import PendingActions from "@/components/admin/pending-actions";
+import QuickActions from "@/components/admin/quick-actions";
 
 export default function Home() {
   const [role, setRole] = useState<string | null>(null);

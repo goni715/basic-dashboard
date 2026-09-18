@@ -16,7 +16,7 @@ interface HospitalTableProps {
   hospitals: IHospital[];
 }
 
-export function HospitalTable({ hospitals }: HospitalTableProps) {
+export default function ({ hospitals }: HospitalTableProps) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
       <div className="p-6 border-b border-slate-100">

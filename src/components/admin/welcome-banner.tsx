@@ -1,6 +1,6 @@
 import { CheckCircle2, TrendingUp } from "lucide-react";
 
-export function WelcomeBanner({ role }: { role?: string | null }) {
+export default function ({ role }: { role?: string | null }) {
   const displayName = role === "doctor" ? "Doctor" : "Admin";
 
   return (

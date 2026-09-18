@@ -7,7 +7,7 @@ interface AppointmentHeaderProps {
   id: string;
 }
 
-export function AppointmentHeader({ id }: AppointmentHeaderProps) {
+export default function ({ id }: AppointmentHeaderProps) {
   return (
     <div className="space-y-6">
       {/* Top Nav */}

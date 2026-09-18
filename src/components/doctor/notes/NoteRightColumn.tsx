@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import PrescriptionModal from "@/components/modal/prescription/PrescriptionModal";
 
-export function NoteRightColumn() {
+export default function NoteRightColumn() {
   return (
-    <div className="xl:col-span-8 space-y-6">
+    <div className="xl:col-span-8 space-y-6 min-w-0">
       
       <Card className="border-0 shadow-sm rounded-2xl">
         <CardHeader className="pb-3 border-b border-slate-100">

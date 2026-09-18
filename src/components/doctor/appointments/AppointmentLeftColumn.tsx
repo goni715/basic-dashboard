@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export function AppointmentLeftColumn() {
+export default function () {
   return (
     <div className="xl:col-span-2 space-y-6">
       <Card className="border-0 shadow-sm rounded-2xl">

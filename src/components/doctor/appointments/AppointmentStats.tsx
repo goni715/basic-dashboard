@@ -5,7 +5,7 @@ interface AppointmentStatsProps {
   stats: IAppointmentStat[];
 }
 
-export function AppointmentStats({ stats }: AppointmentStatsProps) {
+export default function ({ stats }: AppointmentStatsProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {stats.map((stat, i) => (

@@ -16,7 +16,7 @@ interface HealthTipTableProps {
   tips: IAdminHealthTip[];
 }
 
-export function HealthTipTable({ tips }: HealthTipTableProps) {
+export default function ({ tips }: HealthTipTableProps) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
       <div className="p-6 border-b border-slate-100">

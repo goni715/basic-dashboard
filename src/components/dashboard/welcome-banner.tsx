@@ -10,7 +10,7 @@ interface WelcomeBannerProps {
   hospital: string
 }
 
-export function WelcomeBanner({ doctorName, specialty, hospital }: WelcomeBannerProps) {
+export default function ({ doctorName, specialty, hospital }: WelcomeBannerProps) {
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-teal-500 p-6 md:p-8 text-white shadow-lg">
       <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">

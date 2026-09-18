@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export function RoleGuard({ 
+export default function ({ 
   children, 
   allowedRole 
 }: { 

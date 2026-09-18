@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import CreateDoctorModal from "@/components/modal/doctor/CreateDoctorModal";
 
-export function DoctorFilters() {
+export default function () {
   return (
     <div className="flex flex-col md:flex-row gap-4 justify-between items-center w-full">
       <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">

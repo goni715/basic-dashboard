@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import CreateHospitalModal from "@/components/modal/hospital/CreateHospitalModal";
 
-export function HospitalFilters() {
+export default function () {
   return (
     <div className="flex flex-col md:flex-row gap-4 justify-between items-center w-full bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
       <div className="relative w-full">

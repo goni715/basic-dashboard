@@ -9,7 +9,7 @@ const buttons = [
   { label: "Add Tutorial", bg: "bg-purple-500 hover:bg-purple-600" },
 ];
 
-export function QuickActions() {
+export default function () {
   return (
     <Card className="rounded-2xl border-none shadow-sm mt-6">
       <CardHeader className="pb-4">

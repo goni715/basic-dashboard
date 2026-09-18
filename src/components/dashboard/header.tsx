@@ -4,7 +4,7 @@ import * as React from "react"
 import { usePathname } from "next/navigation"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Sidebar } from "@/components/dashboard/sidebar"
+import Sidebar from "@/components/dashboard/sidebar"
 
 const pageTitles: Record<string, { title: string, subtitle: string }> = {
   "/doctor": { title: "Doctor Dashboard", subtitle: "Today's assigned appointments, patients, and pending clinical tasks." },
@@ -13,7 +13,7 @@ const pageTitles: Record<string, { title: string, subtitle: string }> = {
   "/doctor/reports": { title: "Medical Report Viewer", subtitle: "Review patient uploaded medical reports before or during consultation." },
 }
 
-export function Header() {
+export default function () {
   const pathname = usePathname()
   
   // Basic matching for titles
@@ -35,7 +35,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full items-center gap-4 border-b border-slate-100 bg-white/95 px-4 md:px-6 backdrop-blur">
       <div className="lg:hidden flex items-center">
-        <Sidebar className="hidden" /> {/* This just renders the mobile trigger */}
+        <Sidebar hideDesktop /> {/* This just renders the mobile trigger */}
       </div>
       
       <div className="flex-1 flex flex-col justify-center">

@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { ShieldCheck, ArrowRight } from "lucide-react"
 
-import { AuthCard } from "@/components/common/auth-card"
+import AuthCard from "@/components/common/auth-card"
 import { Button } from "@/components/ui/button"
 import {
   InputOTP,

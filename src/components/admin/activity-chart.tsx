@@ -36,7 +36,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ActivityChart() {
+export default function () {
   return (
     <Card className="rounded-2xl border-none shadow-sm h-full">
       <CardHeader className="pb-4">

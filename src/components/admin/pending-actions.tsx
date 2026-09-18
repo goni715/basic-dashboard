@@ -11,7 +11,7 @@ const actions = [
   { text: "5 tutorials missing thumbnails", color: "text-red-600", bg: "bg-red-50", border: "border-red-200" },
 ];
 
-export function PendingActions() {
+export default function () {
   return (
     <Card className="rounded-2xl border-none shadow-sm h-full">
       <CardHeader className="pb-4">

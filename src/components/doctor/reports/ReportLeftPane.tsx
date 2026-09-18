@@ -9,7 +9,7 @@ interface ReportLeftPaneProps {
   reports: IDoctorReport[];
 }
 
-export function ReportLeftPane({ reports }: ReportLeftPaneProps) {
+export default function ({ reports }: ReportLeftPaneProps) {
   return (
     <div className="w-full lg:w-80 flex flex-col shrink-0 gap-4">
       <div className="relative">

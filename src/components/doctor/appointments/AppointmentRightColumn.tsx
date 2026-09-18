@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-export function AppointmentRightColumn() {
+export default function () {
   return (
     <div className="space-y-6">
       <Card className="border-0 shadow-sm rounded-2xl">

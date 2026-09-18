@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { DUMMY_ADMIN_TUTORIAL_STATS, DUMMY_ADMIN_TUTORIALS } from "@/data/admin-tutorial.data";
-import { AdminTutorialStats } from "@/components/admin/tutorials/AdminTutorialStats";
-import { AdminTutorialFilters } from "@/components/admin/tutorials/AdminTutorialFilters";
-import { AdminTutorialTable } from "@/components/admin/tutorials/AdminTutorialTable";
+import AdminTutorialStats from "@/components/admin/tutorials/AdminTutorialStats";
+import AdminTutorialFilters from "@/components/admin/tutorials/AdminTutorialFilters";
+import AdminTutorialTable from "@/components/admin/tutorials/AdminTutorialTable";
 
 export default function AdminTutorialsPage() {
   const [tutorials, setTutorials] = useState(DUMMY_ADMIN_TUTORIALS);

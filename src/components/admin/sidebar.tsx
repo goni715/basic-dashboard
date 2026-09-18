@@ -42,7 +42,7 @@ const navItems = [
   { name: "Settings", href: "/admin/settings", icon: Settings, roles: ["admin"] },
 ];
 
-export function Sidebar({ role }: { role?: string | null }) {
+export default function ({ role }: { role?: string | null }) {
   const pathname = usePathname();
   const router = useRouter();
 

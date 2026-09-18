@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export function ReportRightPane() {
+export default function () {
   return (
     <div className="flex-1 flex flex-col gap-6 overflow-y-auto pr-2">
       

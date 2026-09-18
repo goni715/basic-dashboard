@@ -1,7 +1,7 @@
 import * as React from "react"
-import { Sidebar } from "@/components/dashboard/sidebar"
-import { Header } from "@/components/dashboard/header"
-import { RoleGuard } from "@/components/common/role-guard"
+import Sidebar from "@/components/dashboard/sidebar"
+import Header from "@/components/dashboard/header"
+import RoleGuard from "@/components/common/role-guard"
 
 export default function DoctorLayout({
   children,
@@ -12,7 +12,7 @@ export default function DoctorLayout({
     <RoleGuard allowedRole="doctor">
       <div className="flex min-h-screen w-full bg-slate-50/50">
         {/* Desktop Sidebar */}
-        <Sidebar />
+        <Sidebar hideMobile />
         
         {/* Main Content Area */}
         <div className="flex flex-1 flex-col min-w-0 lg:pl-64">

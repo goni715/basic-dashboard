@@ -11,7 +11,7 @@ interface StatCardProps {
   iconClassName?: string
 }
 
-export function StatCard({ title, value, description, icon: Icon, iconClassName }: StatCardProps) {
+export default function ({ title, value, description, icon: Icon, iconClassName }: StatCardProps) {
   return (
     <Card className="border-0 shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
       <CardContent className="p-6">

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { DUMMY_ADMIN_REPORT_STATS, DUMMY_ADMIN_REPORTS } from "@/data/admin-report.data";
-import { AdminReportStats } from "@/components/admin/reports/AdminReportStats";
-import { AdminReportTable } from "@/components/admin/reports/AdminReportTable";
+import AdminReportStats from "@/components/admin/reports/AdminReportStats";
+import AdminReportTable from "@/components/admin/reports/AdminReportTable";
 
 export default function AdminReportsPage() {
   const [reports, setReports] = useState(DUMMY_ADMIN_REPORTS);

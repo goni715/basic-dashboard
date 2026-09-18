@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { DUMMY_APPOINTMENT_STATS as stats, DUMMY_APPOINTMENTS } from "@/data/appointment.data";
-import { AppointmentStats } from "@/components/doctor/appointments/AppointmentStats";
-import { AppointmentFilters } from "@/components/doctor/appointments/AppointmentFilters";
-import { AppointmentTable } from "@/components/doctor/appointments/AppointmentTable";
+import AppointmentStats from "@/components/doctor/appointments/AppointmentStats";
+import AppointmentFilters from "@/components/doctor/appointments/AppointmentFilters";
+import AppointmentTable from "@/components/doctor/appointments/AppointmentTable";
 
 export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState(DUMMY_APPOINTMENTS);

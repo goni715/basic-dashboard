@@ -16,7 +16,7 @@ interface AdminAppointmentTableProps {
   appointments: IAdminAppointment[];
 }
 
-export function AdminAppointmentTable({ appointments }: AdminAppointmentTableProps) {
+export default function ({ appointments }: AdminAppointmentTableProps) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
       <div className="p-6 border-b border-slate-100">

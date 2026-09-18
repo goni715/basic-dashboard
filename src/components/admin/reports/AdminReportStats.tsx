@@ -4,7 +4,7 @@ interface AdminReportStatsProps {
   stats: IAdminReportStat[];
 }
 
-export function AdminReportStats({ stats }: AdminReportStatsProps) {
+export default function ({ stats }: AdminReportStatsProps) {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat, i) => (

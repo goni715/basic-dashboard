@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
-export function NoteHeader() {
+export default function () {
   return (
     <div className="flex flex-col xl:flex-row gap-4 justify-between xl:items-center bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
       <div className="relative w-full max-w-md">

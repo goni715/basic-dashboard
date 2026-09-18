@@ -17,7 +17,7 @@ interface AppointmentTableProps {
   appointments: IAppointment[];
 }
 
-export function AppointmentTable({ appointments }: AppointmentTableProps) {
+export default function ({ appointments }: AppointmentTableProps) {
   return (
     <div className="overflow-x-auto">
       <Table>

@@ -31,7 +31,7 @@ const modules = [
   { name: "Payments", total: 201, pending: 12, icon: DollarSign, color: "text-emerald-600", bg: "bg-emerald-50" },
 ];
 
-export function ModuleOverview() {
+export default function () {
   return (
     <Card className="rounded-2xl border-none shadow-sm">
       <CardHeader className="pb-4">

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { DUMMY_ADMIN_HEALTH_TIP_STATS, DUMMY_ADMIN_HEALTH_TIPS } from "@/data/admin-health-tip.data";
-import { HealthTipStats } from "@/components/admin/health-tips/HealthTipStats";
-import { HealthTipFilters } from "@/components/admin/health-tips/HealthTipFilters";
-import { HealthTipTable } from "@/components/admin/health-tips/HealthTipTable";
+import HealthTipStats from "@/components/admin/health-tips/HealthTipStats";
+import HealthTipFilters from "@/components/admin/health-tips/HealthTipFilters";
+import HealthTipTable from "@/components/admin/health-tips/HealthTipTable";
 
 export default function AdminHealthTipsPage() {
   const [tips, setTips] = useState(DUMMY_ADMIN_HEALTH_TIPS);

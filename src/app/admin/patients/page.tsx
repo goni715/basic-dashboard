@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { DUMMY_PATIENTS } from "@/data/patient.data";
-import { PatientStats } from "@/components/admin/patients/PatientStats";
-import { PatientTable } from "@/components/admin/patients/PatientTable";
+import PatientStats from "@/components/admin/patients/PatientStats";
+import PatientTable from "@/components/admin/patients/PatientTable";
 
 export default function PatientManagementPage() {
   const [patients, setPatients] = useState(DUMMY_PATIENTS);

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { DUMMY_ADMIN_MEDICINE_STATS, DUMMY_ADMIN_MEDICINES } from "@/data/admin-medicine.data";
-import { AdminMedicineStats } from "@/components/admin/medicines/AdminMedicineStats";
-import { AdminMedicineFilters } from "@/components/admin/medicines/AdminMedicineFilters";
-import { AdminMedicineTable } from "@/components/admin/medicines/AdminMedicineTable";
+import AdminMedicineStats from "@/components/admin/medicines/AdminMedicineStats";
+import AdminMedicineFilters from "@/components/admin/medicines/AdminMedicineFilters";
+import AdminMedicineTable from "@/components/admin/medicines/AdminMedicineTable";
 
 export default function AdminMedicinesPage() {
   const [medicines, setMedicines] = useState(DUMMY_ADMIN_MEDICINES);

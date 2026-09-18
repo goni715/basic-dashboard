@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { DUMMY_DOCTORS } from "@/data/doctor.data";
-import { DoctorFilters } from "@/components/admin/doctors/DoctorFilters";
-import { DoctorTable } from "@/components/admin/doctors/DoctorTable";
+import DoctorFilters from "@/components/admin/doctors/DoctorFilters";
+import DoctorTable from "@/components/admin/doctors/DoctorTable";
 
 export default function DoctorManagementPage() {
   const [doctors, setDoctors] = useState(DUMMY_DOCTORS);

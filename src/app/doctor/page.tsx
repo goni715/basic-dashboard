@@ -1,8 +1,8 @@
 import Link from "next/link"
 import { ChevronRight, Video, Hospital, Eye } from "lucide-react"
 
-import { WelcomeBanner } from "@/components/dashboard/welcome-banner"
-import { StatCard } from "@/components/dashboard/stat-card"
+import WelcomeBanner from "@/components/dashboard/welcome-banner"
+import StatCard from "@/components/dashboard/stat-card"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"

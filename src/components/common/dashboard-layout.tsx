@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sidebar } from "@/components/admin/sidebar";
-import { Header } from "@/components/admin/header";
+import Sidebar from "@/components/admin/sidebar";
+import Header from "@/components/admin/header";
 
-export function DashboardLayout({
+export default function ({
   children,
 }: {
   children: React.ReactNode;

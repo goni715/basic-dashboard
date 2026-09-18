@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import AddTutorialModal from "@/components/modal/tutorial/AddTutorialModal";
 
-export function AdminTutorialFilters() {
+export default function () {
   return (
     <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
       <Input 

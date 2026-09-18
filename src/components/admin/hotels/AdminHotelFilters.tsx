@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import AddHotelModal from "@/components/modal/hotel/AddHotelModal";
 
-export function AdminHotelFilters() {
+export default function () {
   return (
     <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
       <Input 

@@ -2,7 +2,7 @@ import { Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export function AppointmentFilters() {
+export default function () {
   return (
     <div className="p-6 pb-2">
       <div className="flex flex-col md:flex-row gap-4 items-center mb-6">

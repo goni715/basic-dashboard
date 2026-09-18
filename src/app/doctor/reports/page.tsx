@@ -1,8 +1,8 @@
 "use client";
 
 import { DUMMY_DOCTOR_REPORTS as reports } from "@/data/report.data";
-import { ReportLeftPane } from "@/components/doctor/reports/ReportLeftPane";
-import { ReportRightPane } from "@/components/doctor/reports/ReportRightPane";
+import ReportLeftPane from "@/components/doctor/reports/ReportLeftPane";
+import ReportRightPane from "@/components/doctor/reports/ReportRightPane";
 
 export default function ReportsPage() {
   return (

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { DUMMY_DOCTOR_ACCESS } from "@/data/doctor-access.data";
-import { DoctorAccessFilters } from "@/components/admin/doctor-access/DoctorAccessFilters";
-import { DoctorAccessTable } from "@/components/admin/doctor-access/DoctorAccessTable";
+import DoctorAccessFilters from "@/components/admin/doctor-access/DoctorAccessFilters";
+import DoctorAccessTable from "@/components/admin/doctor-access/DoctorAccessTable";
 
 export default function DoctorAccessPage() {
   const [doctors, setDoctors] = useState(DUMMY_DOCTOR_ACCESS);

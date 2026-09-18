@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ReportModal from "@/components/modal/report/ReportModal";
 
-export function NoteLeftColumn() {
+export default function NoteLeftColumn() {
   return (
-    <div className="xl:col-span-4 space-y-6">
+    <div className="xl:col-span-4 space-y-6 min-w-0">
       <Card className="border-0 shadow-sm rounded-2xl">
         <CardHeader className="pb-3 border-b border-slate-100">
           <CardTitle className="text-sm">Patient Information</CardTitle>

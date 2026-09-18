@@ -1,8 +1,8 @@
 "use client";
 
 import { DUMMY_DOCTOR_PATIENTS as patients } from "@/data/doctor-patient.data";
-import { PatientLeftPane } from "@/components/doctor/patients/PatientLeftPane";
-import { PatientRightPane } from "@/components/doctor/patients/PatientRightPane";
+import PatientLeftPane from "@/components/doctor/patients/PatientLeftPane";
+import PatientRightPane from "@/components/doctor/patients/PatientRightPane";
 
 export default function PatientsPage() {
   return (

@@ -9,7 +9,7 @@ interface PatientLeftPaneProps {
   patients: IDoctorPatient[];
 }
 
-export function PatientLeftPane({ patients }: PatientLeftPaneProps) {
+export default function ({ patients }: PatientLeftPaneProps) {
   return (
     <div className="w-full xl:w-80 flex flex-col shrink-0 gap-4">
       <div className="relative">

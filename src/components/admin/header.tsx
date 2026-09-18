@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 
-export function Header({ role }: { role?: string | null }) {
+export default function ({ role }: { role?: string | null }) {
   const displayName = role === "doctor" ? "Doctor" : "Admin";
   
   return (

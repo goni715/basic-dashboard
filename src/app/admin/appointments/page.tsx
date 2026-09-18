@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { DUMMY_ADMIN_APPOINTMENT_STATS, DUMMY_ADMIN_APPOINTMENTS } from "@/data/admin-appointment.data";
-import { AdminAppointmentStats } from "@/components/admin/appointments/AdminAppointmentStats";
-import { AdminAppointmentTable } from "@/components/admin/appointments/AdminAppointmentTable";
+import AdminAppointmentStats from "@/components/admin/appointments/AdminAppointmentStats";
+import AdminAppointmentTable from "@/components/admin/appointments/AdminAppointmentTable";
 
 export default function AdminAppointmentsPage() {
   const [appointments, setAppointments] = useState(DUMMY_ADMIN_APPOINTMENTS);

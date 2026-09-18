@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export function PatientRightPane() {
+export default function () {
   return (
     <div className="flex-1 flex flex-col gap-6 overflow-y-auto pr-2">
       

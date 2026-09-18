@@ -4,7 +4,7 @@ interface AdminHotelStatsProps {
   stats: IAdminHotelStat[];
 }
 
-export function AdminHotelStats({ stats }: AdminHotelStatsProps) {
+export default function ({ stats }: AdminHotelStatsProps) {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat, i) => (

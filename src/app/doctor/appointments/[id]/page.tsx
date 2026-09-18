@@ -1,7 +1,7 @@
 import * as React from "react"
-import { AppointmentHeader } from "@/components/doctor/appointments/AppointmentHeader"
-import { AppointmentLeftColumn } from "@/components/doctor/appointments/AppointmentLeftColumn"
-import { AppointmentRightColumn } from "@/components/doctor/appointments/AppointmentRightColumn"
+import AppointmentHeader from "@/components/doctor/appointments/AppointmentHeader"
+import AppointmentLeftColumn from "@/components/doctor/appointments/AppointmentLeftColumn"
+import AppointmentRightColumn from "@/components/doctor/appointments/AppointmentRightColumn"
 
 export default function AppointmentDetailsPage({ params }: { params: { id: string } }) {
   // In a real app, you would fetch data based on params.id

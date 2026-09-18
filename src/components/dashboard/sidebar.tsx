@@ -26,13 +26,22 @@ const navItems = [
   { name: "Consultation Notes", href: "/doctor/notes", icon: ClipboardList },
 ]
 
-export function Sidebar({ className }: { className?: string }) {
+export default function Sidebar({ 
+  className,
+  hideMobile,
+  hideDesktop
+}: { 
+  className?: string
+  hideMobile?: boolean
+  hideDesktop?: boolean
+}) {
   const pathname = usePathname()
+  const [open, setOpen] = React.useState(false)
 
   const NavContent = () => (
     <div className="flex h-full flex-col">
       <div className="flex h-16 shrink-0 items-center px-6 border-b border-slate-100">
-        <Link href="/doctor" className="flex items-center gap-2">
+        <Link href="/doctor" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-teal-500 text-white">
             <HeartPulse className="h-5 w-5" />
           </div>
@@ -50,6 +59,7 @@ export function Sidebar({ className }: { className?: string }) {
             <Link
               key={item.name}
               href={item.href}
+              onClick={() => setOpen(false)}
               className={cn(
                 "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
                 isActive 
@@ -84,21 +94,25 @@ export function Sidebar({ className }: { className?: string }) {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className={cn("hidden lg:flex w-64 flex-col fixed inset-y-0 z-50 bg-white border-r border-slate-100", className)}>
-        <NavContent />
-      </div>
+      {!hideDesktop && (
+        <div className={cn("hidden lg:flex w-64 flex-col fixed inset-y-0 z-50 bg-white border-r border-slate-100", className)}>
+          <NavContent />
+        </div>
+      )}
 
       {/* Mobile Sidebar */}
-      <Sheet>
-        <SheetTrigger render={<Button variant="ghost" size="icon" className="lg:hidden shrink-0" />}>
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </SheetTrigger>
-        <SheetContent side="left" className="w-64 p-0">
-          <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-          <NavContent />
-        </SheetContent>
-      </Sheet>
+      {!hideMobile && (
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger render={<Button variant="ghost" size="icon" className="lg:hidden shrink-0" />}>
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle navigation menu</span>
+            </SheetTrigger>
+          <SheetContent side="left" className="w-64 p-0">
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <NavContent />
+          </SheetContent>
+        </Sheet>
+      )}
     </>
   )
 }
