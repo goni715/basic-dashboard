@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ShieldAlert, Send, ArrowLeft } from "lucide-react"
 
-import { AuthCard } from "@/components/auth-card"
+import { AuthCard } from "@/components/common/auth-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -16,26 +16,26 @@ export default function ForgotPasswordPage() {
       <form className="space-y-6">
         <div className="space-y-2 text-left">
           <Label htmlFor="email" className="text-xs font-semibold text-slate-700">Email Address</Label>
-          <Input 
-            id="email" 
-            type="email" 
-            placeholder="admin@3smedicare.com" 
+          <Input
+            id="email"
+            type="email"
+            placeholder="admin@3smedicare.com"
             className="h-11 bg-slate-50/50 border-slate-200 focus-visible:ring-teal-500/30 transition-all rounded-lg"
-            required 
+            required
           />
         </div>
 
         <div className="space-y-3">
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full h-11 text-sm font-medium bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white shadow-md hover:shadow-lg transition-all rounded-lg gap-2"
           >
             <Send className="h-4 w-4" />
             Send Reset Link
           </Button>
-          
-          <Button 
-            variant="outline" 
+
+          <Button
+            variant="outline"
             asChild
             className="w-full h-11 text-sm font-medium border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all rounded-lg"
           >

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DashboardLayout } from "@/components/dashboard-layout";
+import { DashboardLayout } from "@/components/common/dashboard-layout";
 import { WelcomeBanner } from "@/components/admin/welcome-banner";
 import { StatsGrid } from "@/components/admin/stats-grid";
 import { ActivityChart } from "@/components/admin/activity-chart";
@@ -21,19 +21,19 @@ export default function Home() {
     <DashboardLayout>
       <div className="flex flex-col gap-6 max-w-[1400px] mx-auto">
         <WelcomeBanner role={role} />
-        
+
         {/* Conditional rendering based on role */}
         {role === "admin" && (
           <>
             <StatsGrid />
             <ActivityChart />
             <ModuleOverview />
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <RecentActivities />
               <PendingActions />
             </div>
-            
+
             <QuickActions />
           </>
         )}

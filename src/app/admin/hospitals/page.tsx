@@ -17,38 +17,10 @@ import {
 } from "@/components/ui/table";
 import CreateHospitalModal from "@/components/modal/hospital/CreateHospitalModal";
 import UpdateHospitalModal from "@/components/modal/hospital/UpdateHospitalModal";
-
-const initialHospitals = [
-  {
-    id: "1",
-    name: "Bangkok International Hospital",
-    location: "Bangkok, Thailand",
-    country: "Thailand",
-    city: "Bangkok",
-    specialties: ["Cardiology", "Neurology"],
-    moreSpecialties: "+1",
-    rating: 4.8,
-    price: "$$",
-    bengali: true,
-    status: "Published",
-  },
-  {
-    id: "2",
-    name: "Apollo Hospitals Chennai",
-    location: "Chennai, India",
-    country: "India",
-    city: "Chennai",
-    specialties: ["Oncology", "Cardiology"],
-    moreSpecialties: "+1",
-    rating: 4.7,
-    price: "$",
-    bengali: true,
-    status: "Published",
-  }
-];
+import { DUMMY_HOSPITALS } from "@/data/hospital.data";
 
 export default function HospitalManagementPage() {
-  const [hospitals, setHospitals] = useState(initialHospitals);
+  const [hospitals, setHospitals] = useState(DUMMY_HOSPITALS);
 
   return (
     <div className="space-y-8 max-w-full overflow-hidden p-2 md:p-4">

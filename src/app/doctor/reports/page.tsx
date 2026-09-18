@@ -7,14 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-
-const reports = [
-  { id: "1", name: "Cardiac Screening Report", patient: "Arif Rahman", date: "May 8, 2026", active: true },
-  { id: "2", name: "ECG Report", patient: "Rahul Ahmed", date: "Apr 28, 2026", active: false },
-  { id: "3", name: "Blood Test Results", patient: "Rahul Ahmed", date: "May 1, 2026", active: false },
-  { id: "4", name: "Prescription", patient: "Mohammed Rahman", date: "Apr 25, 2026", active: false, pending: true },
-]
-
+import { DUMMY_DOCTOR_REPORTS as reports } from "@/data/report.data"
 export default function ReportsPage() {
   return (
     <div className="flex flex-col lg:flex-row gap-6 pb-12 h-[calc(100vh-8rem)]">

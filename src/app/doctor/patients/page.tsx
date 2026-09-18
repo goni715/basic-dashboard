@@ -16,14 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-const patients = [
-  { id: "1", name: "Rahul Ahmed", date: "Apr 14, 2026", note: "Cardiac follow-up", active: true },
-  { id: "2", name: "Arif Rahman", date: "May 15, 2026", note: "Cardiac screening", active: false },
-  { id: "3", name: "Mohammed Rahman", date: "May 12, 2026", note: "Medicine follow-up", active: false },
-  { id: "4", name: "Fatima Khatun", date: "May 20, 2026", note: "Fertility consultation", active: false },
-]
-
+import { DUMMY_DOCTOR_PATIENTS as patients } from "@/data/doctor-patient.data"
 export default function PatientsPage() {
   return (
     <div className="flex flex-col xl:flex-row gap-6 pb-12 h-[calc(100vh-8rem)]">

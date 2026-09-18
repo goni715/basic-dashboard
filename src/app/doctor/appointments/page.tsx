@@ -15,41 +15,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-
-const stats = [
-  { title: "Today", value: 6 },
-  { title: "Upcoming", value: 18 },
-  { title: "Completed", value: 124 },
-  { title: "Cancelled", value: 8 },
-]
-
-const appointments = [
-  { 
-    id: "BK-3SM-2026-001234", patient: "Rahul Ahmed", date: "Apr 14, 2026, 10:00 AM", 
-    duration: "30 min", type: "Video Consultation", symptoms: "Chest discomfort and irregular heartbeat", 
-    reports: 3, status: "Upcoming" 
-  },
-  { 
-    id: "APT-2026-0512", patient: "Arif Rahman", date: "May 15, 2026, 2:00 PM", 
-    duration: "30 min", type: "Video Consultation", symptoms: "Previous cardiac history", 
-    reports: 2, status: "Confirmed" 
-  },
-  { 
-    id: "BK-2026-002110", patient: "Fatima Khatun", date: "May 20, 2026, 11:30 AM", 
-    duration: "45 min", type: "Hospital Visit", symptoms: "Follow-up consultation", 
-    reports: 1, status: "Confirmed" 
-  },
-  { 
-    id: "BK-2026-002009", patient: "Mohammed Rahman", date: "May 12, 2026, 4:00 PM", 
-    duration: "30 min", type: "Video Consultation", symptoms: "Medicine follow-up", 
-    reports: 1, status: "Completed" 
-  },
-]
-
+import { DUMMY_APPOINTMENT_STATS as stats, DUMMY_APPOINTMENTS as appointments } from "@/data/appointment.data"
 export default function AppointmentsPage() {
   return (
     <div className="space-y-6">
-      
+
       {/* Stat Cards Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((stat, i) => (
@@ -63,7 +33,7 @@ export default function AppointmentsPage() {
       </div>
 
       <Card className="border-0 shadow-sm rounded-2xl overflow-hidden">
-        
+
         {/* Toolbar */}
         <div className="p-6 pb-2">
           <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
@@ -141,16 +111,16 @@ export default function AppointmentsPage() {
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className={
-                        apt.status === 'Upcoming' ? 'bg-blue-50 text-blue-700 border-blue-200' : 
-                        apt.status === 'Completed' ? 'bg-slate-100 text-slate-700 border-slate-300' :
-                        'bg-emerald-50 text-emerald-700 border-emerald-200'
+                        apt.status === 'Upcoming' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                          apt.status === 'Completed' ? 'bg-slate-100 text-slate-700 border-slate-300' :
+                            'bg-emerald-50 text-emerald-700 border-emerald-200'
                       }>
                         {apt.status}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right px-6">
                       <div className="flex justify-end gap-2">
-                        <Button size="sm" variant="outline" className="border-slate-200 text-blue-600 font-semibold hover:bg-blue-50 h-8" asChild>
+                        <Button size="sm" variant="outline" className="border-slate-200 text-blue-600 font-semibold hover:bg-blue-50 h-8">
                           <Link href={`/doctor/appointments/${apt.id}`}>
                             <Eye className="mr-1.5 h-3.5 w-3.5" />
                             View
@@ -176,7 +146,7 @@ export default function AppointmentsPage() {
           </div>
         </CardContent>
       </Card>
-      
+
       <div className="h-4"></div>
     </div>
   )

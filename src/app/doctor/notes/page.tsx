@@ -7,8 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { ReportDialog } from "@/components/dashboard/report-dialog"
-import { PrescriptionDialog } from "@/components/dashboard/prescription-dialog"
+import ReportModal from "@/components/modal/report/ReportModal"
+import PrescriptionModal from "@/components/modal/prescription/PrescriptionModal"
 
 export default function ConsultationNotesPage() {
   return (
@@ -103,9 +103,7 @@ export default function ConsultationNotesPage() {
                     <span className="text-xs font-bold text-slate-900">{name}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <ReportDialog>
-                      <button className="text-[11px] font-bold text-blue-600 hover:underline">View</button>
-                    </ReportDialog>
+                    <ReportModal />
                     <span className="text-[11px] font-semibold text-slate-400 cursor-not-allowed">Download</span>
                   </div>
                 </div>
@@ -269,12 +267,7 @@ export default function ConsultationNotesPage() {
               <Button variant="outline" className="flex-1 sm:flex-none border-slate-200 text-slate-700 hover:bg-slate-50 h-11 px-6 rounded-xl font-semibold shadow-sm">
                 Save Draft
               </Button>
-              <PrescriptionDialog>
-                <Button variant="outline" className="flex-1 sm:flex-none border-blue-200 text-blue-600 hover:bg-blue-50 h-11 px-6 rounded-xl font-semibold shadow-sm gap-2">
-                  <Eye className="h-4 w-4" />
-                  Preview Prescription
-                </Button>
-              </PrescriptionDialog>
+              <PrescriptionModal />
             </div>
             
             <div className="flex w-full sm:w-auto gap-3">

@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import { 
-  Search, Plus, Eye, Edit, Trash2, Upload, Star, ChevronDown, Check
+  Search, Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Table,
   TableBody,
@@ -24,99 +23,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from "@/components/ui/sheet";
-import { Label } from "@/components/ui/label";
 import CreateDoctorModal from "@/components/modal/doctor/CreateDoctorModal";
 import UpdateDoctorModal from "@/components/modal/doctor/UpdateDoctorModal";
 import DoctorDetailsModal from "@/components/modal/doctor/DoctorDetailsModal";
-
-const initialDoctors = [
-  {
-    id: "1",
-    name: "Dr. Arjun Mehta",
-    email: "arjun.mehta@gmail.com",
-    specialty: "Cardiology",
-    hospital: "Bangkok Heart Hospital",
-    location: "Bangkok, Thailand",
-    experience: "15 years",
-    fee: "$120",
-    languages: ["English", "Bengali"],
-    moreLangs: "+1",
-    status: "Published",
-    avatar: "A",
-    rating: 4.9,
-    reviews: 312,
-    about: "Dr. Arjun Mehta is a senior cardiologist with 15 years of experience in interventional cardiology and cardiac surgery.",
-    education: [
-      "MBBS - All India Institute of Medical Sciences",
-      "MD Cardiology - Bangkok Medical University",
-      "Fellowship in Interventional Cardiology"
-    ],
-    expertise: ["Heart Surgery", "Angioplasty", "Cardiac Care", "Bypass Surgery", "Valve Replacement"]
-  },
-  {
-    id: "2",
-    name: "Dr. Priya Sharma",
-    email: "priya.sharma@gmail.com",
-    specialty: "IVF & Fertility",
-    hospital: "Apollo Fertility Center",
-    location: "Chennai, India",
-    experience: "12 years",
-    fee: "$95",
-    languages: ["English", "Bengali"],
-    moreLangs: "+1",
-    status: "Published",
-    avatar: "P",
-    rating: 4.8,
-    reviews: 245,
-    about: "Dr. Priya Sharma specializes in IVF treatments with a high success rate.",
-    education: [
-      "MBBS - Madras Medical College",
-      "MS Obstetrics & Gynecology - AIIMS"
-    ],
-    expertise: ["IVF", "IUI", "High-risk Pregnancy"]
-  },
-  {
-    id: "3",
-    name: "Dr. Sophia Rahman",
-    email: "sophia.rahman@gmail.com",
-    specialty: "Orthopedics",
-    hospital: "United Hospital Dhaka",
-    location: "Dhaka, Bangladesh",
-    experience: "10 years",
-    fee: "$65",
-    languages: ["Bengali", "English"],
-    moreLangs: "",
-    status: "Draft",
-    avatar: "S",
-    rating: 4.7,
-    reviews: 180,
-    about: "Expert in joint replacement surgeries and sports injuries.",
-    education: [
-      "MBBS - Dhaka Medical College",
-      "FCPS - Orthopedic Surgery"
-    ],
-    expertise: ["Joint Replacement", "Sports Injuries", "Arthroscopy"]
-  }
-];
+import { DUMMY_DOCTORS } from "@/data/doctor.data";
 
 export default function DoctorManagementPage() {
-  const [doctors, setDoctors] = useState(initialDoctors);
+  const [doctors, setDoctors] = useState(DUMMY_DOCTORS);
 
   return (
     <div className="space-y-8 max-w-full overflow-hidden p-2 md:p-4">
