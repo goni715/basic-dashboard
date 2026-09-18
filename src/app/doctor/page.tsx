@@ -18,7 +18,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DUMMY_DOCTOR_STATS as stats, DUMMY_TODAYS_APPOINTMENTS as todaysAppointments } from "@/data/doctor-overview.data"
 export default function DoctorDashboard() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-full overflow-hidden">
       <WelcomeBanner 
         doctorName="Dr. Arjun Mehta"
         specialty="Cardiology"
@@ -44,7 +44,7 @@ export default function DoctorDashboard() {
             <CardTitle className="text-lg font-bold">Today's Appointments</CardTitle>
             <p className="text-sm text-slate-500 font-medium">Scheduled for today</p>
           </div>
-          <Button variant="ghost" className="text-blue-600 font-semibold text-sm hover:bg-blue-50"  render={<Link href="/doctor/appointments" />}>
+          <Button variant="ghost" className="text-blue-600 font-semibold text-sm hover:bg-blue-50"  render={<Link href="/doctor/appointments" />} nativeButton={false}>
               View all
               <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
@@ -93,7 +93,7 @@ export default function DoctorDashboard() {
                   </TableCell>
                   <TableCell className="text-right px-6">
                     <div className="flex justify-end gap-2">
-                      <Button size="sm" variant="outline" className="border-slate-200 text-blue-600 font-semibold hover:bg-blue-50"  render={<Link href={`/doctor/appointments/${apt.id}`} />}>
+                      <Button size="sm" variant="outline" className="border-slate-200 text-blue-600 font-semibold hover:bg-blue-50"  render={<Link href={`/doctor/appointments/${apt.id}`} />} nativeButton={false}>
                           <Eye className="mr-1.5 h-3.5 w-3.5" />
                           View
                         </Button>

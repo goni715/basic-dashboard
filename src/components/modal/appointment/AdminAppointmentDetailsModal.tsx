@@ -22,11 +22,9 @@ const AdminAppointmentDetailsModal = ({ appointment }: AdminAppointmentDetailsMo
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg">
+      <DialogTrigger render={<Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg" />}>
           <Eye className="h-4 w-4" />
-        </Button>
-      </DialogTrigger>
+        </DialogTrigger>
       <DialogContent className="max-w-2xl p-0 overflow-hidden border-0 bg-slate-50 rounded-2xl shadow-xl">
         <DialogHeader className="px-6 py-4 border-b border-slate-100 bg-white">
           <DialogTitle className="text-lg font-bold text-slate-900">

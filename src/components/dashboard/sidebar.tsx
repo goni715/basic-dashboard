@@ -67,9 +67,13 @@ export function Sidebar({ className }: { className?: string }) {
       <div className="p-4 mt-auto border-t border-slate-100">
         <Button 
           variant="ghost" 
+          onClick={() => {
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("role");
+            window.location.href = "/login";
+          }}
           className="w-full justify-start gap-3 text-red-500 hover:bg-red-50 hover:text-red-600"
-          
-         render={<Link href="/login" />}>
+        >
             <LogOut className="h-4 w-4" />
             Logout
           </Button>

@@ -37,7 +37,7 @@ export function WelcomeBanner({ doctorName, specialty, hospital }: WelcomeBanner
         </div>
         
         <div className="shrink-0">
-          <Button  variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50 font-bold border-0 shadow-sm rounded-xl px-6 h-12" render={<Link href="/doctor/appointments" />}>
+          <Button  variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50 font-bold border-0 shadow-sm rounded-xl px-6 h-12" render={<Link href="/doctor/appointments" />} nativeButton={false}>
               View Today's Appointments
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>

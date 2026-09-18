@@ -15,9 +15,7 @@ const ReportModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <button className="text-[11px] font-bold text-blue-600 hover:underline">View</button>
-      </DialogTrigger>
+      <DialogTrigger render={<button className="text-[11px] font-bold text-blue-600 hover:underline" />}>View</DialogTrigger>
       <DialogContent className="max-w-3xl p-0 overflow-hidden border-0 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl">
         <DialogHeader className="px-6 py-4 border-b border-slate-100 flex flex-row items-center justify-between">
           <DialogTitle className="text-sm font-bold text-slate-900">

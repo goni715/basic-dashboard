@@ -23,11 +23,9 @@ const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button size="icon" variant="ghost" className="h-8 w-8 text-amber-600 hover:text-amber-700 hover:bg-amber-50 rounded-lg">
+      <DialogTrigger render={<Button size="icon" variant="ghost" className="h-8 w-8 text-amber-600 hover:text-amber-700 hover:bg-amber-50 rounded-lg" />}>
           <Edit className="h-4 w-4" />
-        </Button>
-      </DialogTrigger>
+        </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-4xl xl:max-w-5xl p-0 overflow-hidden border-0 bg-white rounded-2xl shadow-xl flex flex-col max-h-[90vh]">
         <DialogHeader className="px-6 py-4 border-b border-slate-100 shrink-0">
           <DialogTitle className="text-lg font-bold text-slate-900">

@@ -18,12 +18,10 @@ const AddMedicineModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button className="w-full sm:w-auto h-11 px-6 rounded-xl bg-[#00A3C4] hover:bg-[#008ba8] text-white font-semibold shadow-md gap-2">
+      <DialogTrigger render={<Button className="w-full sm:w-auto h-11 px-6 rounded-xl bg-[#00A3C4] hover:bg-[#008ba8] text-white font-semibold shadow-md gap-2" />}>
           <Plus className="h-4 w-4" />
           Add Medicine
-        </Button>
-      </DialogTrigger>
+        </DialogTrigger>
       <DialogContent className="w-[95vw] max-w-4xl xl:max-w-5xl p-0 overflow-hidden border-0 bg-white rounded-2xl shadow-xl flex flex-col max-h-[90vh]">
         <DialogHeader className="px-6 py-4 border-b border-slate-100 shrink-0">
           <DialogTitle className="text-lg font-bold text-slate-900">
