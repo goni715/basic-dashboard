@@ -21,6 +21,10 @@ export function DashboardLayout({
     const userRole = localStorage.getItem("role");
 
     if (isLoggedIn === "true") {
+      if (userRole === "doctor") {
+        router.push("/doctor");
+        return;
+      }
       setIsAuthenticated(true);
       setRole(userRole);
     } else {

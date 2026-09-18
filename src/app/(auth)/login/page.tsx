@@ -36,7 +36,7 @@ export default function LoginPage() {
     if (doctorEmail === "doctor@gmail.com" && doctorPassword === "123456") {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("role", "doctor");
-      router.push("/");
+      router.push("/doctor");
     } else {
       alert("Invalid doctor credentials");
     }

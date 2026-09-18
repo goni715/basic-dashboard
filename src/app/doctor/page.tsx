@@ -1,4 +1,3 @@
-import * as React from "react"
 import Link from "next/link"
 import { ChevronRight, Video, Hospital, Eye } from "lucide-react"
 
