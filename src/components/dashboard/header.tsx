@@ -5,6 +5,17 @@ import { usePathname } from "next/navigation"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Sidebar from "@/components/dashboard/sidebar"
+import { useRouter } from "next/navigation"
+import { LogOut, Laptop } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const pageTitles: Record<string, { title: string, subtitle: string }> = {
   "/doctor": { title: "Doctor Dashboard", subtitle: "Today's assigned appointments, patients, and pending clinical tasks." },
@@ -15,6 +26,7 @@ const pageTitles: Record<string, { title: string, subtitle: string }> = {
 
 export default function () {
   const pathname = usePathname()
+  const router = useRouter()
   
   // Basic matching for titles
   let currentHeader = pageTitles["/doctor"]
@@ -28,35 +40,52 @@ export default function () {
     currentHeader = pageTitles["/doctor/reports"]
   }
 
-  // Format date like "Sun, Jun 14, 2026"
-  const today = new Date("2026-06-14") // Hardcoded to match screenshot, or use new Date()
-  const dateStr = today.toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
+    router.push("/login");
+  };
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 w-full items-center gap-4 border-b border-slate-100 bg-white/95 px-4 md:px-6 backdrop-blur">
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between gap-4 border-b border-slate-100 bg-white/95 px-4 md:px-6 backdrop-blur">
       <div className="lg:hidden flex items-center">
         <Sidebar hideDesktop /> {/* This just renders the mobile trigger */}
       </div>
       
-      <div className="flex-1 flex flex-col justify-center">
+      <div className="hidden lg:flex flex-1 flex-col justify-center">
         <h1 className="text-lg font-bold text-slate-900 leading-tight">{currentHeader.title}</h1>
         <p className="text-xs font-medium text-slate-500 hidden sm:block">{currentHeader.subtitle}</p>
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="hidden md:flex items-center rounded-full bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600 border border-slate-100">
-          {dateStr}
-        </div>
         
         <div className="flex items-center gap-3">
-          <Avatar className="h-9 w-9 border border-blue-100 ring-2 ring-white">
-            <AvatarImage src="" alt="Dr. Arjun Mehta" />
-            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-teal-500 text-white font-bold text-xs">AM</AvatarFallback>
-          </Avatar>
-          <div className="hidden sm:flex flex-col text-right">
-            <span className="text-sm font-bold text-slate-900 leading-none">Dr. Arjun Mehta</span>
-            <span className="text-[11px] font-medium text-blue-600 mt-1">Cardiology</span>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-3 outline-none">
+              <Avatar className="h-9 w-9 border border-blue-100 ring-2 ring-white transition-transform hover:scale-105">
+                <AvatarImage src="" alt="Dr. Arjun Mehta" />
+                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-teal-500 text-white font-bold text-xs">AM</AvatarFallback>
+              </Avatar>
+              <div className="hidden sm:flex flex-col text-right">
+                <span className="text-sm font-bold text-slate-900 leading-none">Dr. Arjun Mehta</span>
+                <span className="text-[11px] font-medium text-blue-600 mt-1">Cardiology</span>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56 mt-1">
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-slate-700 focus:bg-slate-50">
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50">
+                <Laptop className="mr-2 h-4 w-4" />
+                <span>Logout from all devices</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

@@ -17,11 +17,11 @@ export default function () {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <Input 
             placeholder="Search doctor, specialty..." 
-            className="pl-9 bg-white border-slate-200 rounded-lg h-10 w-full"
+            className="pl-9 bg-white border-slate-200 rounded-lg h-10 py-2 w-full"
           />
         </div>
         <Select>
-          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10">
+          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10 data-[size=default]:h-10 py-2">
             <SelectValue placeholder="All Countries" />
           </SelectTrigger>
           <SelectContent>
@@ -29,7 +29,7 @@ export default function () {
           </SelectContent>
         </Select>
         <Select>
-          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10">
+          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10 data-[size=default]:h-10 py-2">
             <SelectValue placeholder="All Hospitals" />
           </SelectTrigger>
           <SelectContent>
@@ -37,7 +37,7 @@ export default function () {
           </SelectContent>
         </Select>
         <Select>
-          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10">
+          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10 data-[size=default]:h-10 py-2">
             <SelectValue placeholder="All Status" />
           </SelectTrigger>
           <SelectContent>

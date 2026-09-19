@@ -6,12 +6,15 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Eye, Star } from "lucide-react";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import UpdateDoctorModal from "./UpdateDoctorModal";
 
 const DoctorDetailsModal = ({ doctor }: { doctor: any }) => {
   const [open, setOpen] = useState(false);
@@ -23,17 +26,17 @@ const DoctorDetailsModal = ({ doctor }: { doctor: any }) => {
         View
       </Button>
 
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent className="w-full sm:max-w-md p-0 bg-white border-l border-slate-100 flex flex-col">
-          <SheetHeader className="p-6 border-b border-slate-100">
-            <SheetTitle className="text-lg font-bold text-slate-900">Patient App Preview</SheetTitle>
-            <SheetDescription className="text-slate-500 mt-1">
-              This is how the doctor profile will appear to patients.
-            </SheetDescription>
-          </SheetHeader>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[700px] p-0 rounded-2xl gap-0 overflow-hidden max-h-[95dvh] sm:max-h-[90dvh] flex flex-col bg-white">
+          <div className="p-6 pb-4 border-b border-slate-100 shrink-0">
+            <DialogTitle className="text-xl font-bold">Doctor Details</DialogTitle>
+            <DialogDescription className="text-slate-500 mt-1.5">
+              Complete details and profile information of the doctor.
+            </DialogDescription>
+          </div>
           
-          <div className="flex-1 overflow-y-auto">
-            <div className="p-6 space-y-6">
+          <div className="px-6 overflow-y-auto flex-1 custom-scrollbar py-2">
+            <div className="space-y-6 py-2">
               
               {/* Profile Card */}
               <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-5 space-y-4">
@@ -136,16 +139,21 @@ const DoctorDetailsModal = ({ doctor }: { doctor: any }) => {
             </div>
           </div>
           
-          <div className="p-6 border-t border-slate-100 flex gap-4 mt-auto">
-            <Button className="flex-1 rounded-xl h-12 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-semibold shadow-sm">
-              Edit Doctor
-            </Button>
-            <Button variant="outline" onClick={() => setOpen(false)} className="flex-1 rounded-xl h-12 border-slate-200 font-semibold text-slate-600 hover:bg-slate-50">
+          <DialogFooter className="m-0 p-6 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row gap-3 sm:justify-end w-full shrink-0">
+            <Button variant="outline" onClick={() => setOpen(false)} className="rounded-xl h-11 px-8 border-slate-200 font-semibold text-slate-600 hover:bg-slate-50 w-full sm:w-auto">
               Close
             </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
+            <UpdateDoctorModal 
+              doctor={doctor}
+              trigger={
+                <DialogTrigger render={<Button className="rounded-xl h-11 px-8 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-semibold shadow-sm w-full sm:w-auto" />}>
+                  Edit Doctor
+                </DialogTrigger>
+              }
+            />
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

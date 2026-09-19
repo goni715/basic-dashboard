@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dialog";
 
 const DoctorForm = ({ selectedDoctor }: { selectedDoctor: any }) => (
-  <div className="grid gap-6 py-2 overflow-y-auto max-h-[70vh] pr-2 custom-scrollbar">
+  <div className="grid gap-6 py-2 pr-2">
     {/* Section 1 */}
     <div>
       <div className="flex items-center gap-2 mb-4">
@@ -45,7 +45,7 @@ const DoctorForm = ({ selectedDoctor }: { selectedDoctor: any }) => (
         <div className="grid gap-2">
           <Label className="text-sm font-semibold text-slate-700">Specialty</Label>
           <Select defaultValue={selectedDoctor?.specialty}>
-            <SelectTrigger className="border-slate-200 h-11 rounded-xl bg-slate-50/50">
+            <SelectTrigger className="w-full border-slate-200 h-11 rounded-xl bg-slate-50/50">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
@@ -58,7 +58,7 @@ const DoctorForm = ({ selectedDoctor }: { selectedDoctor: any }) => (
         <div className="grid gap-2">
           <Label className="text-sm font-semibold text-slate-700">Assigned Hospital</Label>
           <Select defaultValue={selectedDoctor?.hospital}>
-            <SelectTrigger className="border-slate-200 h-11 rounded-xl bg-slate-50/50">
+            <SelectTrigger className="w-full border-slate-200 h-11 rounded-xl bg-slate-50/50">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
@@ -71,7 +71,7 @@ const DoctorForm = ({ selectedDoctor }: { selectedDoctor: any }) => (
         <div className="grid gap-2">
           <Label className="text-sm font-semibold text-slate-700">Country</Label>
           <Select defaultValue={selectedDoctor?.location?.split(', ')[1]}>
-            <SelectTrigger className="border-slate-200 h-11 rounded-xl bg-slate-50/50">
+            <SelectTrigger className="w-full border-slate-200 h-11 rounded-xl bg-slate-50/50">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
@@ -155,7 +155,7 @@ const DoctorForm = ({ selectedDoctor }: { selectedDoctor: any }) => (
           <div className="grid gap-2">
             <Label className="text-sm font-semibold text-slate-700">Availability Label</Label>
             <Select defaultValue="Available Today">
-              <SelectTrigger className="border-slate-200 h-11 rounded-xl bg-slate-50/50">
+              <SelectTrigger className="w-full border-slate-200 h-11 rounded-xl bg-slate-50/50">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
@@ -192,34 +192,36 @@ const DoctorForm = ({ selectedDoctor }: { selectedDoctor: any }) => (
   </div>
 );
 
-const UpdateDoctorModal = ({ doctor }: { doctor: any }) => {
+const UpdateDoctorModal = ({ doctor, trigger }: { doctor: any; trigger?: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button size="sm" variant="outline" className="h-8 border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold rounded-lg px-2.5 shadow-sm" />}>
+      {trigger || (
+        <DialogTrigger render={<Button size="sm" variant="outline" className="h-8 border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold rounded-lg px-2.5 shadow-sm" />}>
           <Edit className="mr-1.5 h-3.5 w-3.5" />
           Edit
         </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] p-0 rounded-2xl gap-0 overflow-hidden">
-        <div className="p-6 pb-4 border-b border-slate-100">
+      )}
+      <DialogContent className="sm:max-w-[700px] p-0 rounded-2xl gap-0 overflow-hidden max-h-[95dvh] sm:max-h-[90dvh] flex flex-col">
+        <div className="p-6 pb-4 border-b border-slate-100 shrink-0">
           <DialogTitle className="text-xl font-bold">Edit Doctor</DialogTitle>
           <DialogDescription className="text-slate-500 mt-1.5">
             Update patient-facing doctor details and consultation availability.
           </DialogDescription>
         </div>
         
-        <div className="px-6">
+        <div className="px-6 overflow-y-auto flex-1 custom-scrollbar">
           <DoctorForm selectedDoctor={doctor} />
         </div>
 
-        <DialogFooter className="p-6 border-t border-slate-100 bg-slate-50/50 flex flex-row gap-3 sm:justify-between w-full">
-          <div className="flex gap-3">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)} className="rounded-xl h-11 px-6 border-slate-200 hover:bg-white text-slate-600">
+        <DialogFooter className="m-0 p-6 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row gap-3 sm:justify-between w-full shrink-0">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <Button type="button" variant="outline" onClick={() => setOpen(false)} className="rounded-xl h-11 px-6 border-slate-200 hover:bg-white text-slate-600 w-full sm:w-auto">
               Cancel
             </Button>
           </div>
-          <Button type="submit" className="rounded-xl h-11 px-8 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white shadow-sm font-semibold ml-auto">
+          <Button type="submit" className="rounded-xl h-11 px-8 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white shadow-sm font-semibold ml-0 sm:ml-auto w-full sm:w-auto">
             Save Changes
           </Button>
         </DialogFooter>

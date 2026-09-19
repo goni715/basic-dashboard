@@ -98,16 +98,6 @@ export default function Sidebar({ role, hideMobile, hideDesktop }: { role?: stri
         })}
       </div>
       
-      <div className="border-t border-slate-100 p-4 shrink-0">
-        <Button 
-          variant="ghost" 
-          onClick={handleLogout}
-          className="w-full justify-start gap-3 text-red-500 hover:bg-red-50 hover:text-red-600 rounded-xl px-4 py-6 h-auto"
-        >
-          <LogOut className="h-5 w-5" />
-          <span className="font-medium text-[15px]">Logout</span>
-        </Button>
-      </div>
     </div>
   );
 
