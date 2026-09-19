@@ -69,8 +69,8 @@ export default function NoteRightColumn() {
         </CardHeader>
         <CardContent className="p-6">
           
-          <div className="overflow-x-auto pb-4">
-            <div className="min-w-[600px] grid grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr_40px] gap-3 mb-2 px-1">
+          <div className="space-y-4">
+            <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr_40px] gap-3 px-1">
               <div className="text-[10px] font-bold text-slate-400 uppercase">Medicine Name <span className="text-red-500">*</span></div>
               <div className="text-[10px] font-bold text-slate-400 uppercase">Dosage <span className="text-red-500">*</span></div>
               <div className="text-[10px] font-bold text-slate-400 uppercase">Frequency</div>
@@ -80,27 +80,61 @@ export default function NoteRightColumn() {
             </div>
             
             {/* Medicine Row 1 */}
-            <div className="min-w-[600px] grid grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr_40px] gap-3 items-center bg-slate-50/50 p-2 rounded-xl border border-slate-100 mb-3">
-              <Input defaultValue="Atorvastatin 20mg" className="h-10 bg-white" />
-              <Input defaultValue="1 tablet" className="h-10 bg-white" />
-              <Input defaultValue="Twice daily" className="h-10 bg-white" />
-              <Input defaultValue="30 days" className="h-10 bg-white" />
-              <Input defaultValue="Take after dinner" className="h-10 bg-white" />
-              <Button variant="ghost" size="icon" className="h-9 w-9 text-red-500 hover:bg-red-50 rounded-lg">
-                <Trash2 className="h-4 w-4" />
-              </Button>
+            <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr_40px] gap-4 md:gap-3 items-start md:items-center bg-slate-50/50 p-4 md:p-2 rounded-xl border border-slate-100">
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Medicine Name <span className="text-red-500">*</span></label>
+                 <Input defaultValue="Atorvastatin 20mg" className="h-10 bg-white" />
+              </div>
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Dosage <span className="text-red-500">*</span></label>
+                 <Input defaultValue="1 tablet" className="h-10 bg-white" />
+              </div>
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Frequency</label>
+                 <Input defaultValue="Twice daily" className="h-10 bg-white" />
+              </div>
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Duration <span className="text-red-500">*</span></label>
+                 <Input defaultValue="30 days" className="h-10 bg-white" />
+              </div>
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Instructions</label>
+                 <Input defaultValue="Take after dinner" className="h-10 bg-white" />
+              </div>
+              <div className="flex justify-end md:block">
+                 <Button variant="ghost" size="icon" className="h-9 w-9 text-red-500 hover:bg-red-50 rounded-lg">
+                   <Trash2 className="h-4 w-4" />
+                 </Button>
+              </div>
             </div>
 
             {/* Empty Row Example */}
-            <div className="min-w-[600px] grid grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr_40px] gap-3 items-center bg-slate-50/50 p-2 rounded-xl border border-slate-100 dashed border-2">
-              <Input placeholder="eg. Paracetamol" className="h-10 bg-transparent border-0 shadow-none focus-visible:ring-0" />
-              <Input placeholder="eg. 500mg" className="h-10 bg-transparent border-0 shadow-none focus-visible:ring-0" />
-              <Input placeholder="eg. 1-1-1" className="h-10 bg-transparent border-0 shadow-none focus-visible:ring-0" />
-              <Input placeholder="eg. 5 days" className="h-10 bg-transparent border-0 shadow-none focus-visible:ring-0" />
-              <Input placeholder="eg. After meal" className="h-10 bg-transparent border-0 shadow-none focus-visible:ring-0" />
-              <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-slate-600 rounded-lg" disabled>
-                <Trash2 className="h-4 w-4" />
-              </Button>
+            <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr_40px] gap-4 md:gap-3 items-start md:items-center bg-slate-50/50 p-4 md:p-2 rounded-xl border border-slate-100 dashed border-2">
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Medicine Name <span className="text-red-500">*</span></label>
+                 <Input placeholder="eg. Paracetamol" className="h-10 md:bg-transparent bg-white md:border-0 border-slate-200 md:shadow-none shadow-sm focus-visible:ring-0 md:h-10" />
+              </div>
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Dosage <span className="text-red-500">*</span></label>
+                 <Input placeholder="eg. 500mg" className="h-10 md:bg-transparent bg-white md:border-0 border-slate-200 md:shadow-none shadow-sm focus-visible:ring-0 md:h-10" />
+              </div>
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Frequency</label>
+                 <Input placeholder="eg. 1-1-1" className="h-10 md:bg-transparent bg-white md:border-0 border-slate-200 md:shadow-none shadow-sm focus-visible:ring-0 md:h-10" />
+              </div>
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Duration <span className="text-red-500">*</span></label>
+                 <Input placeholder="eg. 5 days" className="h-10 md:bg-transparent bg-white md:border-0 border-slate-200 md:shadow-none shadow-sm focus-visible:ring-0 md:h-10" />
+              </div>
+              <div className="space-y-1.5 md:space-y-0">
+                 <label className="text-[10px] font-bold text-slate-400 uppercase md:hidden">Instructions</label>
+                 <Input placeholder="eg. After meal" className="h-10 md:bg-transparent bg-white md:border-0 border-slate-200 md:shadow-none shadow-sm focus-visible:ring-0 md:h-10" />
+              </div>
+              <div className="flex justify-end md:block">
+                 <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-slate-600 rounded-lg" disabled>
+                   <Trash2 className="h-4 w-4" />
+                 </Button>
+              </div>
             </div>
           </div>
 

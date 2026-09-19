@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -18,9 +20,11 @@ import {
   LogOut,
   HeartPulse,
   ClipboardList,
+  Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 
 const navItems = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard, roles: ["admin"] },
@@ -42,9 +46,10 @@ const navItems = [
   { name: "Settings", href: "/admin/settings", icon: Settings, roles: ["admin"] },
 ];
 
-export default function ({ role }: { role?: string | null }) {
+export default function Sidebar({ role, hideMobile, hideDesktop }: { role?: string | null, hideMobile?: boolean, hideDesktop?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -58,9 +63,9 @@ export default function ({ role }: { role?: string | null }) {
     return item.roles.includes(role);
   });
 
-  return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r bg-white flex flex-col hidden md:flex">
-      <div className="flex h-[88px] items-center gap-3 px-6 border-b border-slate-100">
+  const NavContent = () => (
+    <div className="flex h-full flex-col">
+      <div className="flex h-[88px] items-center gap-3 px-6 border-b border-slate-100 shrink-0">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500 text-white">
           <HeartPulse className="h-6 w-6" />
         </div>
@@ -76,7 +81,7 @@ export default function ({ role }: { role?: string | null }) {
           const Icon = item.icon;
           
           return (
-            <Link key={item.name} href={item.href}>
+            <Link key={item.name} href={item.href} onClick={() => setOpen(false)}>
               <div
                 className={cn(
                   "flex items-center gap-3 rounded-xl px-4 py-[14px] text-[15px] font-medium transition-colors",
@@ -93,7 +98,7 @@ export default function ({ role }: { role?: string | null }) {
         })}
       </div>
       
-      <div className="border-t border-slate-100 p-4">
+      <div className="border-t border-slate-100 p-4 shrink-0">
         <Button 
           variant="ghost" 
           onClick={handleLogout}
@@ -103,6 +108,29 @@ export default function ({ role }: { role?: string | null }) {
           <span className="font-medium text-[15px]">Logout</span>
         </Button>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {!hideDesktop && (
+        <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r bg-white flex-col hidden md:flex">
+          <NavContent />
+        </aside>
+      )}
+
+      {!hideMobile && (
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden shrink-0" />}>
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle navigation menu</span>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-64 p-0">
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <NavContent />
+          </SheetContent>
+        </Sheet>
+      )}
+    </>
   );
 }

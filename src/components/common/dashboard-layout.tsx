@@ -43,7 +43,7 @@ export default function ({
 
   return (
     <div className="min-h-screen bg-slate-50/50">
-      <Sidebar role={role} />
+      <Sidebar role={role} hideMobile />
       <div className="flex flex-col md:pl-64">
         <Header role={role} />
         <main className="flex-1 p-8">
