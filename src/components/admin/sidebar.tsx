@@ -27,26 +27,19 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 
 const navItems = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard, roles: ["admin"] },
-  { name: "Dashboard", href: "/doctor", icon: LayoutDashboard, roles: ["doctor"] },
-  { name: "Doctor Access", href: "/admin/doctor-access", icon: KeyRound, roles: ["admin"] },
-  { name: "Doctors", href: "/admin/doctors", icon: Stethoscope, roles: ["admin"] },
-  { name: "Hospitals", href: "/admin/hospitals", icon: Building2, roles: ["admin"] },
-  { name: "Patients", href: "/admin/patients", icon: Users, roles: ["admin"] },
-  { name: "Patients", href: "/doctor/patients", icon: Users, roles: ["doctor"] },
-  { name: "Appointments", href: "/admin/appointments", icon: Calendar, roles: ["admin"] },
-  { name: "Appointments", href: "/doctor/appointments", icon: Calendar, roles: ["doctor"] },
-  { name: "Medical Reports", href: "/admin/reports", icon: FileText, roles: ["admin"] },
-  { name: "Reports", href: "/doctor/reports", icon: FileText, roles: ["doctor"] },
-  { name: "Consultation Notes", href: "/doctor/notes", icon: ClipboardList, roles: ["doctor"] },
-  { name: "Medicines", href: "/admin/medicines", icon: Link2, roles: ["admin"] },
-  { name: "Hotels", href: "/admin/hotels", icon: Hotel, roles: ["admin"] },
-  { name: "Health Tips", href: "/admin/health-tips", icon: Lightbulb, roles: ["admin"] },
-  { name: "Tutorials", href: "/admin/tutorials", icon: PlaySquare, roles: ["admin"] },
-  { name: "Settings", href: "/admin/settings", icon: Settings, roles: ["admin"] },
+  { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Hospitals", href: "/admin/hospitals", icon: Building2 },
+  { name: "Patients", href: "/admin/patients", icon: Users },
+  { name: "Appointments", href: "/admin/appointments", icon: Calendar },
+  { name: "Medical Reports", href: "/admin/reports", icon: FileText },
+  { name: "Medicines", href: "/admin/medicines", icon: Link2 },
+  { name: "Hotels", href: "/admin/hotels", icon: Hotel },
+  { name: "Health Tips", href: "/admin/health-tips", icon: Lightbulb },
+  { name: "Tutorials", href: "/admin/tutorials", icon: PlaySquare },
+  { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
-export default function Sidebar({ role, hideMobile, hideDesktop }: { role?: string | null, hideMobile?: boolean, hideDesktop?: boolean }) {
+export default function Sidebar({ hideMobile, hideDesktop }: { hideMobile?: boolean, hideDesktop?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -57,12 +50,6 @@ export default function Sidebar({ role, hideMobile, hideDesktop }: { role?: stri
     router.push("/login");
   };
 
-  // Filter items based on role
-  const filteredNavItems = navItems.filter(item => {
-    if (!role) return false;
-    return item.roles.includes(role);
-  });
-
   const NavContent = () => (
     <div className="flex h-full flex-col">
       <div className="flex h-[88px] items-center gap-3 px-6 border-b border-slate-100 shrink-0">
@@ -71,12 +58,12 @@ export default function Sidebar({ role, hideMobile, hideDesktop }: { role?: stri
         </div>
         <div className="flex flex-col">
           <span className="font-bold text-[17px] tracking-tight leading-tight text-slate-800">3S Medicare</span>
-          <span className="text-[13px] text-slate-500 font-medium">{role === 'doctor' ? 'Doctor Panel' : 'Admin Panel'}</span>
+          <span className="text-[13px] text-slate-500 font-medium">Admin Panel</span>
         </div>
       </div>
       
       <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-4 scrollbar-hide">
-        {filteredNavItems.map((item) => {
+        {navItems.map((item) => {
           const isActive = pathname === item.href || (pathname === '/' && item.name === 'Dashboard');
           const Icon = item.icon;
           

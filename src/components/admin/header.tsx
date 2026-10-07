@@ -12,8 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function Header({ role }: { role?: string | null }) {
-  const displayName = role === "doctor" ? "Doctor" : "Admin";
+export default function Header() {
+  const displayName = "Admin";
   const router = useRouter();
 
   const handleLogout = () => {
@@ -26,7 +26,7 @@ export default function Header({ role }: { role?: string | null }) {
     <header className="sticky top-0 z-30 flex h-[88px] w-full items-center justify-between border-b border-slate-100 bg-white/80 px-8 backdrop-blur-md">
       <div className="flex items-center gap-4">
         <div className="md:hidden">
-          <Sidebar role={role} hideDesktop />
+          <Sidebar hideDesktop />
         </div>
         <div className="hidden lg:flex flex-col">
           <h1 className="text-xl font-bold tracking-tight text-slate-900">Dashboard Overview</h1>

@@ -13,20 +13,12 @@ export default function ({
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [role, setRole] = useState<string | null>(null);
-
   useEffect(() => {
     setIsMounted(true);
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    const userRole = localStorage.getItem("role");
 
     if (isLoggedIn === "true") {
-      if (userRole === "doctor") {
-        router.push("/doctor");
-        return;
-      }
       setIsAuthenticated(true);
-      setRole(userRole);
     } else {
       router.push("/login");
     }
@@ -43,9 +35,9 @@ export default function ({
 
   return (
     <div className="min-h-screen bg-slate-50/50">
-      <Sidebar role={role} hideMobile />
+      <Sidebar hideMobile />
       <div className="flex flex-col md:pl-64">
-        <Header role={role} />
+        <Header />
         <main className="flex-1 p-8">
           {children}
         </main>
