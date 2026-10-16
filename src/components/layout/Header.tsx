@@ -1,7 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, LogOut, Laptop } from "lucide-react";
-import Sidebar from "@/components/admin/sidebar";
+import Sidebar from "@/components/layout/Sidebar";
 import { useRouter } from "next/navigation";
+import { clearSession } from "@/helpers/SessionHelper";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,11 +18,10 @@ export default function Header() {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
+    clearSession();
     router.push("/login");
   };
-  
+
   return (
     <header className="sticky top-0 z-30 flex h-[88px] w-full items-center justify-between border-b border-slate-100 bg-white/80 px-8 backdrop-blur-md">
       <div className="flex items-center gap-4">
@@ -29,13 +29,13 @@ export default function Header() {
           <Sidebar hideDesktop />
         </div>
         <div className="hidden lg:flex flex-col">
-          <h1 className="text-xl font-bold tracking-tight text-slate-900">Dashboard Overview</h1>
+          <h1 className="text-xl font-bold tracking-tight text-slate-900">Admin Panel</h1>
           <p className="text-[13px] font-medium text-slate-500 mt-0.5 hidden sm:block">
             Monitor all platform modules, recent activities, and monthly performance.
           </p>
         </div>
       </div>
-      
+
       <DropdownMenu>
         <DropdownMenuTrigger className="flex items-center gap-3 outline-none">
           <Avatar className="h-10 w-10 border border-slate-100 shadow-sm transition-transform hover:scale-105">
