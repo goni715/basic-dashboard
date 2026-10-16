@@ -1,7 +1,8 @@
 import { CheckCircle2, TrendingUp } from "lucide-react";
 
-export default function ({ role }: { role?: string | null }) {
-  const displayName = role === "doctor" ? "Doctor" : "Admin";
+export default function WelcomeBanner({ role }: { role?: string | null }) {
+  const isDoctor = role?.toLowerCase() === "doctor";
+  const displayName = isDoctor ? "Doctor" : "Admin";
 
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-teal-400 p-8 shadow-sm">

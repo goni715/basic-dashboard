@@ -1,0 +1,45 @@
+import {
+  LayoutDashboard,
+  Building2,
+  Users,
+  Stethoscope,
+  KeyRound,
+  Calendar,
+  FileText,
+  Link2,
+  Hotel,
+  Lightbulb,
+  PlaySquare,
+  Settings,
+  Globe,
+  Bell,
+  BookOpen,
+  HelpCircle,
+} from "lucide-react";
+import type { INavItem } from "@/types/sidebar.type";
+
+export const navItems: INavItem[] = [
+  { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Doctors", href: "/doctors", icon: Stethoscope },
+  { name: "Doctor Access", href: "/doctor-access", icon: KeyRound },
+  { name: "Patients", href: "/patients", icon: Users },
+  { name: "Appointments", href: "/appointments", icon: Calendar },
+  { name: "Hospitals", href: "/hospitals", icon: Building2 },
+  { name: "Medical Reports", href: "/reports", icon: FileText },
+  { name: "Medicines", href: "/medicines", icon: Link2 },
+  { name: "Hotels", href: "/hotels", icon: Hotel },
+  { name: "Health Tips", href: "/health-tips", icon: Lightbulb },
+  { name: "Tutorials", href: "/tutorials", icon: PlaySquare },
+  {
+    name: "Settings",
+    href: "/settings/general",
+    icon: Settings,
+    children: [
+      { name: "General", href: "/settings/general", icon: Settings },
+      { name: "Countries & Languages", href: "/settings/countries-languages", icon: Globe },
+      { name: "Notifications", href: "/settings/notifications", icon: Bell },
+      { name: "Legal & Support", href: "/settings/legal-support", icon: BookOpen },
+      { name: "FAQs", href: "/settings/faqs", icon: HelpCircle },
+    ],
+  },
+];

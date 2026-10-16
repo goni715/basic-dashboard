@@ -5,7 +5,7 @@ import { ErrorToast, SuccessToast } from "@/helpers/ValidationHelper";
 import { apiSlice } from "../api/apiSlice";
 import { SetChangePasswordError, SetForgotError, SetLoginError, SetResetPasswordError, SetVerifyOtpError } from "./authSlice";
 import TagTypes from "@/constants/tagType.constant";
-import { removeToken, setToken, setUserInfo, removeUserInfo } from "@/helpers/SessionHelper";
+import { removeToken, setToken, setUserInfo, removeUserInfo, clearSession } from "@/helpers/SessionHelper";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -44,21 +44,19 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled }) {
         try {
           await queryFulfilled;
-          removeToken();
-          removeUserInfo();
+          clearSession();
           SuccessToast("Successfully logged out!");
           window.location.href = "/login";
         } catch (err: any) {
+          clearSession();
           const status = err?.error?.status;
           const message = err?.error?.data?.message || "Something Went Wrong";
           if (status === 500) {
             ErrorToast("Something Went Wrong");
-            return;
-          }
-          if (status !== 401) {
+          } else if (status !== 401) {
             ErrorToast(message);
           }
-
+          window.location.href = "/login";
         }
       },
     }),
@@ -70,20 +68,19 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled }) {
         try {
           await queryFulfilled;
-          removeToken();
-          removeUserInfo();
+          clearSession();
           SuccessToast("Successfully logged out from all devices!");
           window.location.href = "/login";
         } catch (err: any) {
+          clearSession();
           const status = err?.error?.status;
           const message = err?.error?.data?.message || "Something Went Wrong";
           if (status === 500) {
             ErrorToast("Something Went Wrong");
-            return;
-          }
-          if (status !== 401) {
+          } else if (status !== 401) {
             ErrorToast(message);
           }
+          window.location.href = "/login";
         }
       },
     }),

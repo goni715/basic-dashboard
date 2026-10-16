@@ -16,12 +16,22 @@ export default function Home() {
     setRole(localStorage.getItem("role"));
   }, []);
 
+  const isDoctor = role?.toLowerCase() === "doctor";
+
   return (
     <div className="flex flex-col gap-6 max-w-[1400px] mx-auto">
       <WelcomeBanner role={role} />
 
-      {/* Conditional rendering based on role */}
-      {role === "admin" && (
+      {/* Render doctor view if role is doctor, otherwise render full admin dashboard */}
+      {isDoctor ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="p-6 bg-white rounded-2xl shadow-sm">
+            <h3 className="text-xl font-bold mb-4">Doctor specific content</h3>
+            <p className="text-slate-500">Welcome to the doctor's dashboard. This is a simplified view.</p>
+          </div>
+          <RecentActivities />
+        </div>
+      ) : (
         <>
           <StatsGrid />
           <ActivityChart />
@@ -34,16 +44,6 @@ export default function Home() {
 
           <QuickActions />
         </>
-      )}
-
-      {role === "doctor" && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="p-6 bg-white rounded-2xl shadow-sm">
-            <h3 className="text-xl font-bold mb-4">Doctor specific content</h3>
-            <p className="text-slate-500">Welcome to the doctor's dashboard. This is a simplified view.</p>
-          </div>
-          <RecentActivities />
-        </div>
       )}
     </div>
   );

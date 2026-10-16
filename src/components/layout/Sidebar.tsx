@@ -4,68 +4,17 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  LayoutDashboard,
-  Building2,
-  Users,
-  Stethoscope,
-  KeyRound,
-  Calendar,
-  FileText,
-  Link2,
-  Hotel,
-  Lightbulb,
-  PlaySquare,
-  Settings,
-  Globe,
-  Bell,
-  BookOpen,
-  HelpCircle,
   ChevronDown,
   Menu,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { clearSession } from "@/helpers/SessionHelper";
-
-interface SubNavItem {
-  name: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-interface NavItem {
-  name: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-  children?: SubNavItem[];
-}
-
-const navItems: NavItem[] = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Hospitals", href: "/hospitals", icon: Building2 },
-  { name: "Patients", href: "/patients", icon: Users },
-  { name: "Doctors", href: "/doctors", icon: Stethoscope },
-  { name: "Doctor Access", href: "/doctor-access", icon: KeyRound },
-  { name: "Appointments", href: "/appointments", icon: Calendar },
-  { name: "Medical Reports", href: "/reports", icon: FileText },
-  { name: "Medicines", href: "/medicines", icon: Link2 },
-  { name: "Hotels", href: "/hotels", icon: Hotel },
-  { name: "Health Tips", href: "/health-tips", icon: Lightbulb },
-  { name: "Tutorials", href: "/tutorials", icon: PlaySquare },
-  {
-    name: "Settings",
-    href: "/settings/general",
-    icon: Settings,
-    children: [
-      { name: "General", href: "/settings/general", icon: Settings },
-      { name: "Countries & Languages", href: "/settings/countries-languages", icon: Globe },
-      { name: "Notifications", href: "/settings/notifications", icon: Bell },
-      { name: "Legal & Support", href: "/settings/legal-support", icon: BookOpen },
-      { name: "FAQs", href: "/settings/faqs", icon: HelpCircle },
-    ],
-  },
-];
+import { useLogoutMutation } from "@/redux/features/auth/authApi";
+import LogoutConfirmModal from "@/components/modal/auth/LogoutConfirmModal";
+import { navItems } from "@/data/sidebar.data";
 
 export default function Sidebar({
   hideMobile,
@@ -78,6 +27,7 @@ export default function Sidebar({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [settingsExpanded, setSettingsExpanded] = useState(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   // Auto-expand Settings whenever the user is on any /settings route
   useEffect(() => {
@@ -86,9 +36,17 @@ export default function Sidebar({
     }
   }, [pathname]);
 
-  const handleLogout = () => {
-    clearSession();
-    router.push("/login");
+  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
+
+  const handleConfirmLogout = async () => {
+    try {
+      await logout({}).unwrap();
+    } catch {
+      clearSession();
+      router.push("/login");
+    } finally {
+      setLogoutModalOpen(false);
+    }
   };
 
   const NavContent = () => (
@@ -183,6 +141,18 @@ export default function Sidebar({
           );
         })}
       </div>
+
+      <div className="border-t border-slate-100 p-4 shrink-0">
+        <Button
+          variant="ghost"
+          onClick={() => setLogoutModalOpen(true)}
+          disabled={isLoggingOut}
+          className="w-full justify-start gap-3 text-red-500 hover:bg-red-50 hover:text-red-600 rounded-xl px-4 py-3 h-auto cursor-pointer"
+        >
+          <LogOut className="h-5 w-5" />
+          <span className="font-medium text-[15px]">Logout</span>
+        </Button>
+      </div>
     </div>
   );
 
@@ -206,6 +176,14 @@ export default function Sidebar({
           </SheetContent>
         </Sheet>
       )}
+
+      {/* Confirmation Modal */}
+      <LogoutConfirmModal
+        open={logoutModalOpen}
+        onOpenChange={setLogoutModalOpen}
+        onConfirm={handleConfirmLogout}
+        isLoading={isLoggingOut}
+      />
     </>
   );
 }

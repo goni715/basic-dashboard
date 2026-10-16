@@ -1,4 +1,4 @@
-import DashboardLayout from "@/components/common/dashboard-layout";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import PrivateRoute from "@/providers/PrivateRoute";
 
 export default function AdminLayout({
