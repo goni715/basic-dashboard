@@ -1,26 +1,150 @@
 "use client";
 
-import { useState } from "react";
-import { DUMMY_HOSPITALS } from "@/data/hospital.data";
+import { Suspense, useCallback } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 import HospitalStats from "@/components/admin/hospitals/HospitalStats";
 import HospitalFilters from "@/components/admin/hospitals/HospitalFilters";
 import HospitalTable from "@/components/admin/hospitals/HospitalTable";
+import { useGetHospitalsQuery } from "@/redux/features/hospital/hospitalApi";
 
-export default function HospitalManagementPage() {
-  const [hospitals, setHospitals] = useState(DUMMY_HOSPITALS);
+function HospitalManagementContent() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Read all filter and pagination values directly from URL
+  const searchTerm = searchParams.get("searchTerm") || "";
+  const status = searchParams.get("status") || "all";
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 10;
+
+  // Helper to update URL query params
+  const updateQuery = useCallback(
+    (updates: Record<string, string | number | null | undefined>) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      Object.entries(updates).forEach(([key, value]) => {
+        if (
+          value === null ||
+          value === undefined ||
+          value === "" ||
+          value === "all" ||
+          (key === "page" && Number(value) <= 1) ||
+          (key === "limit" && Number(value) === 10)
+        ) {
+          params.delete(key);
+        } else {
+          params.set(key, String(value));
+        }
+      });
+
+      const queryString = params.toString();
+      router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+        scroll: false,
+      });
+    },
+    [pathname, router, searchParams]
+  );
+
+  const handleSearchChange = useDebouncedCallback((val: string) => {
+    updateQuery({ searchTerm: val.trim() || null, page: null });
+  }, 400);
+
+  const handleStatusChange = (val: string) => {
+    updateQuery({ status: val, page: null });
+  };
+
+  const handlePageChange = (newPage: number) => {
+    updateQuery({ page: newPage });
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    updateQuery({ limit: newLimit, page: null });
+  };
+
+  const handleResetFilters = () => {
+    router.replace(pathname, { scroll: false });
+  };
+
+  // Construct query arguments object for RTK Query
+  const queryArgs: Record<string, unknown> = {
+    page,
+    limit,
+  };
+
+  if (searchTerm) {
+    queryArgs.searchTerm = searchTerm;
+  }
+  if (status && status !== "all") {
+    queryArgs.status = status;
+  }
+
+  // Fetch hospitals with RTK Query
+  const { data, isLoading, isFetching } = useGetHospitalsQuery(queryArgs);
+
+  const hospitals = data?.data || [];
+  const meta = data?.meta;
+
+  const totalCount = meta?.total ?? hospitals.length;
+  const publishedCount = hospitals.filter((h) => h.status === "published").length;
+  const draftCount = hospitals.filter((h) => h.status === "draft").length;
+  const archivedCount = hospitals.filter((h) => h.status === "archive").length;
 
   return (
-    <div className="space-y-8 max-w-full overflow-hidden p-2 md:p-4">
+    <div className="space-y-6 max-w-full overflow-hidden p-2 md:p-4">
+      {/* Page Header */}
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold text-slate-900">Hospital Management</h1>
-        <p className="text-slate-500 text-sm">Manage hospitals shown in the patient app.</p>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+          Hospital Management
+        </h1>
+        <p className="text-slate-500 text-sm">
+          Browse, search, register, and manage hospitals for the patient application.
+        </p>
       </div>
 
-      <HospitalStats />
-      
-      <HospitalFilters />
+      {/* Dynamic Hospital Stats */}
+      <HospitalStats
+        total={totalCount}
+        published={publishedCount}
+        draft={draftCount}
+        archived={archivedCount}
+      />
 
-      <HospitalTable hospitals={hospitals} />
+      {/* Filters & Create Modal */}
+      <HospitalFilters
+        searchTerm={searchTerm}
+        onSearchChange={handleSearchChange}
+        status={status}
+        onStatusChange={handleStatusChange}
+        onReset={handleResetFilters}
+      />
+
+      {/* Hospitals Data Table */}
+      <HospitalTable
+        hospitals={hospitals}
+        meta={meta}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        page={page}
+        onPageChange={handlePageChange}
+        limit={limit}
+        onLimitChange={handleLimitChange}
+      />
     </div>
+  );
+}
+
+export default function HospitalManagementPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="p-6 text-slate-500 text-sm flex items-center justify-center">
+          Loading hospital management...
+        </div>
+      }
+    >
+      <HospitalManagementContent />
+    </Suspense>
   );
 }

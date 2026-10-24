@@ -1,23 +1,156 @@
 "use client";
 
-import { useState } from "react";
-import { DUMMY_PATIENTS } from "@/data/patient.data";
+import { Suspense, useCallback } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 import PatientStats from "@/components/admin/patients/PatientStats";
+import PatientFilters from "@/components/admin/patients/PatientFilters";
 import PatientTable from "@/components/admin/patients/PatientTable";
+import { useGetPatientsQuery } from "@/redux/features/user/userApi";
 
-export default function PatientManagementPage() {
-  const [patients, setPatients] = useState(DUMMY_PATIENTS);
+function PatientManagementContent() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Read all filter and pagination values directly from URL
+  const searchTerm = searchParams.get("searchTerm") || "";
+  const status = searchParams.get("status") || "all";
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 10;
+
+  // Helper to update URL query params
+  const updateQuery = useCallback(
+    (updates: Record<string, string | number | null | undefined>) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      Object.entries(updates).forEach(([key, value]) => {
+        if (
+          value === null ||
+          value === undefined ||
+          value === "" ||
+          value === "all" ||
+          (key === "page" && Number(value) <= 1) ||
+          (key === "limit" && Number(value) === 10)
+        ) {
+          params.delete(key);
+        } else {
+          params.set(key, String(value));
+        }
+      });
+
+      const queryString = params.toString();
+      router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+        scroll: false,
+      });
+    },
+    [pathname, router, searchParams]
+  );
+
+  const handleSearchChange = useDebouncedCallback((val: string) => {
+    updateQuery({ searchTerm: val.trim() || null, page: null });
+  }, 400);
+
+  const handleStatusChange = (val: string) => {
+    updateQuery({ status: val, page: null });
+  };
+
+  const handlePageChange = (newPage: number) => {
+    updateQuery({ page: newPage });
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    updateQuery({ limit: newLimit, page: null });
+  };
+
+  const handleResetFilters = () => {
+    router.replace(pathname, { scroll: false });
+  };
+
+  // Construct query arguments object for RTK Query
+  const queryArgs: Record<string, unknown> = {
+    page,
+    limit,
+  };
+
+  if (searchTerm) {
+    queryArgs.searchTerm = searchTerm;
+  }
+  if (status && status !== "all") {
+    queryArgs.status = status;
+  }
+
+  // Fetch patients with RTK Query
+  const { data, isLoading, isFetching } = useGetPatientsQuery(queryArgs);
+
+  const patients = data?.data || [];
+  const meta = data?.meta;
+
+  const totalCount = meta?.total ?? patients.length;
+  const activeCount = patients.filter(
+    (p) => (p.status || "").toLowerCase() === "active"
+  ).length;
+  const pendingCount = patients.filter(
+    (p) => (p.status || "").toLowerCase() === "pending"
+  ).length;
+  const blockedCount = patients.filter(
+    (p) => (p.status || "").toLowerCase() === "blocked"
+  ).length;
 
   return (
-    <div className="space-y-8 max-w-full overflow-hidden p-2 md:p-4">
+    <div className="space-y-6 max-w-full overflow-hidden p-2 md:p-4">
+      {/* Page Header */}
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold text-slate-900">Patient Management</h1>
-        <p className="text-slate-500 text-sm">View patient profiles, medical info, reports, appointments, and requests.</p>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+          Patient Management
+        </h1>
+        <p className="text-slate-500 text-sm">
+          Browse, search, review, and manage patient accounts on the platform.
+        </p>
       </div>
 
-      <PatientStats />
+      {/* Dynamic Patient Stats */}
+      <PatientStats
+        total={totalCount}
+        active={activeCount}
+        pending={pendingCount}
+        blocked={blockedCount}
+      />
 
-      <PatientTable patients={patients} />
+      {/* Filters (Search & Status) */}
+      <PatientFilters
+        searchTerm={searchTerm}
+        onSearchChange={handleSearchChange}
+        status={status}
+        onStatusChange={handleStatusChange}
+        onReset={handleResetFilters}
+      />
+
+      {/* Patients Data Table */}
+      <PatientTable
+        patients={patients}
+        meta={meta}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        page={page}
+        onPageChange={handlePageChange}
+        limit={limit}
+        onLimitChange={handleLimitChange}
+      />
     </div>
+  );
+}
+
+export default function PatientManagementPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="p-6 text-slate-500 text-sm flex items-center justify-center">
+          Loading patient management...
+        </div>
+      }
+    >
+      <PatientManagementContent />
+    </Suspense>
   );
 }

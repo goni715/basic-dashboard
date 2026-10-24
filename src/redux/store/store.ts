@@ -1,15 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from '../features/api/apiSlice'
 import authSliceReducer from '../features/auth/authSlice'
-import ownerSliceReducer from '../features/owner/ownerSlice'
+import doctorSliceReducer from '../features/doctor/doctorSlice'
 import faqSliceReducer from '../features/faq/faqSlice'
 import contentSliceReducer from '../features/content/contentSlice'
+import hospitalSliceReducer from '../features/hospital/hospitalSlice'
 
 export const store = configureStore({
     reducer: {
         [apiSlice.reducerPath]: apiSlice.reducer,
         auth: authSliceReducer,
-        owner: ownerSliceReducer,
+        doctor: doctorSliceReducer,
+        hospital: hospitalSliceReducer,
         faq: faqSliceReducer,
         content: contentSliceReducer,
     },

@@ -1,5 +1,9 @@
-import { Search } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { Search, X, RotateCcw, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -9,44 +13,154 @@ import {
 } from "@/components/ui/select";
 import CreateDoctorModal from "@/components/modal/doctor/CreateDoctorModal";
 
-export default function () {
+interface DoctorFiltersProps {
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  status: string;
+  onStatusChange: (value: string) => void;
+  approvalStatus: string;
+  onApprovalStatusChange: (value: string) => void;
+  onReset: () => void;
+}
+
+export default function DoctorFilters({
+  searchTerm,
+  onSearchChange,
+  status,
+  onStatusChange,
+  approvalStatus,
+  onApprovalStatusChange,
+  onReset,
+}: DoctorFiltersProps) {
+  // Local input state for instant visual responsiveness while typing
+  const [searchValue, setSearchValue] = useState(searchTerm);
+
+  // Sync when searchTerm changes externally (e.g. from URL, reset, browser back/forward)
+  useEffect(() => {
+    setSearchValue(searchTerm);
+  }, [searchTerm]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setSearchValue(val);
+    onSearchChange(val);
+  };
+
+  const handleClearSearch = () => {
+    setSearchValue("");
+    onSearchChange("");
+  };
+
+  const isFiltered =
+    Boolean(searchTerm) || (status && status !== "all") || (approvalStatus && approvalStatus !== "all");
+
+  const statusOptions = [
+    { label: "All Status", value: "all" },
+    { label: "Published", value: "published" },
+    { label: "Draft", value: "draft" },
+    { label: "Archive", value: "archive" },
+  ];
+
+  const approvalStatusOptions = [
+    { label: "All Approval Status", value: "all" },
+    { label: "Pending", value: "pending" },
+    { label: "Approved", value: "approved" },
+    { label: "Rejected", value: "rejected" },
+  ];
+
   return (
-    <div className="flex flex-col md:flex-row gap-4 justify-between items-center w-full">
-      <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-        <div className="relative min-w-[200px] lg:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-          <Input 
-            placeholder="Search doctor, specialty..." 
-            className="pl-9 bg-white border-slate-200 rounded-lg h-10 py-2 w-full"
+    <div className="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center w-full">
+      <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+        {/* Search Input */}
+        <div className="relative flex-1 sm:w-72 min-w-[220px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+          <Input
+            value={searchValue}
+            onChange={handleInputChange}
+            placeholder="Search name, email, BMDC, specialty..."
+            className="pl-9 pr-9 bg-white border-slate-200 rounded-xl h-10 py-2 w-full text-sm shadow-xs focus-visible:ring-2 focus-visible:ring-blue-500/20"
           />
+          {searchValue && (
+            <button
+              type="button"
+              onClick={handleClearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
         </div>
-        <Select>
-          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10 data-[size=default]:h-10 py-2">
-            <SelectValue placeholder="All Countries" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Countries</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10 data-[size=default]:h-10 py-2">
-            <SelectValue placeholder="All Hospitals" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Hospitals</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-full md:w-40 bg-white border-slate-200 rounded-lg h-10 data-[size=default]:h-10 py-2">
-            <SelectValue placeholder="All Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-          </SelectContent>
-        </Select>
+
+        {/* Status Filter */}
+        <div className="w-full sm:w-44">
+          <Select
+            value={status || "all"}
+            onValueChange={(val) => onStatusChange(val ?? "all")}
+          >
+            <SelectTrigger className="w-full bg-white border-slate-200 rounded-xl h-10 px-3 text-sm shadow-xs">
+              <div className="flex items-center gap-2 truncate">
+                <Filter className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                <SelectValue placeholder="All Status" />
+              </div>
+            </SelectTrigger>
+            <SelectContent className="rounded-xl border border-slate-100 shadow-md">
+              {statusOptions.map((opt) => (
+                <SelectItem
+                  key={opt.value}
+                  value={opt.value}
+                  className="text-sm cursor-pointer"
+                >
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Approval Status Filter */}
+        <div className="w-full sm:w-48">
+          <Select
+            value={approvalStatus || "all"}
+            onValueChange={(val) => onApprovalStatusChange(val ?? "all")}
+          >
+            <SelectTrigger className="w-full bg-white border-slate-200 rounded-xl h-10 px-3 text-sm shadow-xs">
+              <div className="flex items-center gap-2 truncate">
+                <span className="h-2 w-2 rounded-full bg-blue-500 shrink-0" />
+                <SelectValue placeholder="All Approval Status" />
+              </div>
+            </SelectTrigger>
+            <SelectContent className="rounded-xl border border-slate-100 shadow-md">
+              {approvalStatusOptions.map((opt) => (
+                <SelectItem
+                  key={opt.value}
+                  value={opt.value}
+                  className="text-sm cursor-pointer"
+                >
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Reset Button */}
+        {isFiltered && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={onReset}
+            className="h-10 px-3 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl text-xs font-semibold gap-1.5 transition-colors cursor-pointer"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            <span>Reset</span>
+          </Button>
+        )}
       </div>
 
-      <CreateDoctorModal />
+      <div className="w-full lg:w-auto flex justify-end">
+        <CreateDoctorModal />
+      </div>
     </div>
   );
 }

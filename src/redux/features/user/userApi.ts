@@ -5,10 +5,87 @@ import { ErrorToast, SuccessToast } from "@/helpers/ValidationHelper";
 import { setUserInfo, getUserInfo } from "@/helpers/SessionHelper";
 import { IParam } from "@/types/global.type";
 import { IProfileResponse } from "@/types/user.type";
+import {
+  IGetPatientsResponse,
+  IPatientQueryParams,
+  TPatientStatus,
+} from "@/types/patient.type";
 import { SetProfileError } from "../auth/authSlice";
 
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getPatients: builder.query<
+      IGetPatientsResponse,
+      IPatientQueryParams | IParam[] | Record<string, any> | void
+    >({
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args !== undefined && Array.isArray(args) && args.length > 0) {
+          args.forEach((item: IParam) => {
+            if (
+              item.value !== undefined &&
+              item.value !== null &&
+              item.value !== "" &&
+              item.value !== "all"
+            ) {
+              params.append(item.name, String(item.value));
+            }
+          });
+        } else if (args && typeof args === "object") {
+          Object.entries(args).forEach(([key, val]) => {
+            if (
+              val !== undefined &&
+              val !== null &&
+              val !== "" &&
+              val !== "all"
+            ) {
+              params.append(key, String(val));
+            }
+          });
+        }
+        return {
+          url: "/user/patients",
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: [TagTypes.USERS],
+    }),
+
+    changeUserStatus: builder.mutation<
+      { success: boolean; message: string; data: any },
+      {
+        userId: string;
+        status: TPatientStatus | "active" | "blocked" | "pending";
+      }
+    >({
+      query: ({ userId, status }) => ({
+        url: `/auth/change-status/${userId}`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: (result) => {
+        if (result?.success) {
+          return [TagTypes.USERS];
+        }
+        return [];
+      },
+      async onQueryStarted(_arg, { queryFulfilled }) {
+        try {
+          const res = await queryFulfilled;
+          SuccessToast(
+            res?.data?.message || "User status updated successfully"
+          );
+        } catch (err: any) {
+          const message =
+            err?.error?.data?.message ||
+            err?.error?.data?.error ||
+            "Failed to update user status";
+          ErrorToast(message);
+        }
+      },
+    }),
+
     getCustomers: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
@@ -48,7 +125,6 @@ export const userApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 600,
       providesTags: [TagTypes.USERS],
     }),
-
 
     getMyProfile: builder.query<IProfileResponse, void>({
       query: () => ({
@@ -123,9 +199,10 @@ export const userApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetPatientsQuery,
+  useChangeUserStatusMutation,
   useGetCustomersQuery,
   useGetCustomersByShopIdQuery,
   useGetMyProfileQuery,
   useUpdateProfileMutation,
 } = userApi;
-

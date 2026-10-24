@@ -1,118 +1,409 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Edit,
+  Building2,
+  Mail,
+  Phone,
+  Globe,
+  MapPin,
+  Save,
+  Loader2,
+  Upload,
+  X,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Edit } from "lucide-react";
+import CustomIconInput from "@/components/common/CustomIconInput";
+import CustomTextArea from "@/components/common/CustomTextArea";
+import ErrorAlert from "@/components/alert/ErrorAlert";
+import { ErrorToast } from "@/helpers/ValidationHelper";
+import { IHospital } from "@/types/hospital.type";
+import {
+  updateHospitalSchema,
+  type TUpdateHospitalFormValues,
+} from "@/schemas/hospital.schema";
+import { useUpdateHospitalMutation } from "@/redux/features/hospital/hospitalApi";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { SetUpdateHospitalError } from "@/redux/features/hospital/hospitalSlice";
 
-const UpdateHospitalModal = ({ hospital }: { hospital: any }) => {
+interface UpdateHospitalModalProps {
+  hospital: IHospital;
+  trigger?: React.ReactNode;
+}
+
+const UpdateHospitalModal = ({ hospital, trigger }: UpdateHospitalModalProps) => {
   const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const dispatch = useAppDispatch();
+  const { UpdateHospitalError } = useAppSelector((state) => state.hospital);
+  const [updateHospital, { isLoading }] = useUpdateHospitalMutation();
+
+  const {
+    handleSubmit,
+    control,
+    reset,
+  } = useForm<TUpdateHospitalFormValues>({
+    resolver: zodResolver(updateHospitalSchema),
+    defaultValues: {
+      name: hospital?.name || "",
+      address: hospital?.address || hospital?.location || "",
+      contactNumber: hospital?.contactNumber || "",
+      email: hospital?.email || "",
+      website: hospital?.website || "",
+    },
+  });
+
+  // Sync form values whenever modal opens or hospital prop updates
+  useEffect(() => {
+    if (open) {
+      dispatch(SetUpdateHospitalError(""));
+      reset({
+        name: hospital?.name || "",
+        address: hospital?.address || hospital?.location || "",
+        contactNumber: hospital?.contactNumber || "",
+        email: hospital?.email || "",
+        website: hospital?.website || "",
+      });
+      setSelectedImage(null);
+      setImagePreview(hospital?.image || null);
+    } else {
+      if (selectedImage && imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+      setSelectedImage(null);
+      setImagePreview(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  }, [open, hospital, dispatch, reset]);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        ErrorToast("Image size must be less than 5MB");
+        return;
+      }
+      if (selectedImage && imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+      setSelectedImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleRemoveImage = () => {
+    if (selectedImage && imagePreview) {
+      URL.revokeObjectURL(imagePreview);
+    }
+    setSelectedImage(null);
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleFormSubmit: SubmitHandler<TUpdateHospitalFormValues> = async (data) => {
+    dispatch(SetUpdateHospitalError(""));
+
+    const hospitalId = hospital._id || hospital.id;
+    if (!hospitalId) {
+      ErrorToast("Hospital ID is missing");
+      return;
+    }
+
+    const payload: Record<string, unknown> = {
+      name: data.name.trim(),
+      address: data.address.trim(),
+      contactNumber: data.contactNumber.trim(),
+      email: data.email.trim().toLowerCase(),
+    };
+
+    if (data.website && data.website.trim().length > 0) {
+      payload.website = data.website.trim();
+    }
+
+    if (selectedImage instanceof File) {
+      payload.image = selectedImage;
+    }
+
+    try {
+      const res = await updateHospital({ id: hospitalId, data: payload });
+      if (res?.data?.success || (!res?.error && res?.data)) {
+        setOpen(false);
+      }
+    } catch {
+      // Handled via onQueryStarted in hospitalApi
+    }
+  };
 
   return (
-    <>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger render={<Button size="sm" variant="outline" className="h-8 border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold rounded-lg px-2.5 shadow-sm" />}>
-            <Edit className="mr-1.5 h-3.5 w-3.5" />
-            Edit
-          </DialogTrigger>
-        <DialogContent className="sm:max-w-[700px] p-0 rounded-2xl gap-0 overflow-hidden">
-          <div className="p-6 pb-4 border-b border-slate-100">
-            <DialogTitle className="text-xl font-bold">Edit Hospital</DialogTitle>
-            <DialogDescription className="text-slate-500 mt-1.5">
-              Add patient-facing hospital information.
-            </DialogDescription>
-          </div>
-          
-          <div className="px-6 py-4 overflow-y-auto max-h-[70vh] custom-scrollbar grid gap-6">
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger
+        render={
+          trigger ? (
+            (trigger as React.ReactElement)
+          ) : (
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-8 w-8 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors"
+              title="Edit hospital"
+            />
+          )
+        }
+      >
+        {!trigger && <Edit className="h-4 w-4" />}
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-[720px] p-0 rounded-2xl gap-0 overflow-hidden max-h-[92dvh] flex flex-col bg-white border border-slate-100 shadow-2xl">
+        {/* Modal Header */}
+        <DialogHeader className="p-6 pb-4 border-b border-slate-100 shrink-0 bg-gradient-to-r from-slate-50/70 to-blue-50/30">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-500 text-white flex items-center justify-center shadow-sm shadow-blue-500/20">
+              <Building2 className="h-5 w-5" />
+            </div>
             <div>
-              <h3 className="text-sm font-bold text-slate-800 mb-4">Basic Information</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="grid gap-2 md:col-span-2">
-                  <Label className="text-sm font-semibold text-slate-700">
-                    Hospital Name<span className="text-rose-500">*</span>
-                  </Label>
-                  <Input defaultValue={hospital?.name} placeholder="e.g. Bangkok International Hospital" className="border-slate-200 h-11 rounded-xl bg-slate-50/50" />
-                </div>
-                
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-700">
-                    Country<span className="text-rose-500">*</span>
-                  </Label>
-                  <Input defaultValue={hospital?.country} className="border-slate-200 h-11 rounded-xl bg-slate-50/50" />
-                </div>
-                
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-700">
-                    City<span className="text-rose-500">*</span>
-                  </Label>
-                  <Input defaultValue={hospital?.city} placeholder="City name" className="border-slate-200 h-11 rounded-xl bg-slate-50/50" />
-                </div>
+              <DialogTitle className="text-xl font-bold text-slate-900 tracking-tight">
+                Edit Hospital
+              </DialogTitle>
+              <DialogDescription className="text-slate-500 text-xs sm:text-sm mt-0.5">
+                Update patient-facing hospital profile and contact details.
+              </DialogDescription>
+            </div>
+          </div>
+        </DialogHeader>
 
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-700">Price Level</Label>
-                  <Input defaultValue={hospital?.price} className="border-slate-200 h-11 rounded-xl bg-slate-50/50" />
-                </div>
+        {/* Form Body */}
+        <form
+          id="update-hospital-form"
+          onSubmit={handleSubmit(handleFormSubmit)}
+          className="flex flex-col flex-1 overflow-hidden"
+        >
+          <div className="px-6 py-5 overflow-y-auto flex-1 space-y-6 custom-scrollbar">
+            {/* Error Banner */}
+            {UpdateHospitalError && (
+              <ErrorAlert
+                message={UpdateHospitalError}
+                onClose={() => dispatch(SetUpdateHospitalError(""))}
+              />
+            )}
 
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-700">Rating (0-5)</Label>
-                  <Input defaultValue={hospital?.rating} placeholder="4.8" className="border-slate-200 h-11 rounded-xl bg-slate-50/50" />
-                </div>
+            {/* SECTION 1: Basic Information */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 pb-1 border-b border-slate-100">
+                <span className="h-5 w-5 rounded-full bg-blue-100 text-blue-600 text-xs font-bold flex items-center justify-center">
+                  1
+                </span>
+                <h3 className="text-xs font-bold tracking-wider uppercase text-blue-600">
+                  Basic & Contact Details
+                </h3>
+              </div>
 
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-700">Contact Phone</Label>
-                  <Input placeholder="+66 2 310 3000" className="border-slate-200 h-11 rounded-xl bg-slate-50/50" />
-                </div>
+              <div className="grid grid-cols-1 gap-4">
+                <CustomIconInput
+                  name="name"
+                  label="Hospital Name"
+                  control={control}
+                  placeholder="e.g. Bangkok International Hospital"
+                  icon={Building2}
+                  required
+                />
+              </div>
 
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-700">Contact Email</Label>
-                  <Input placeholder="info@hospital.com" className="border-slate-200 h-11 rounded-xl bg-slate-50/50" />
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <CustomIconInput
+                  name="contactNumber"
+                  label="Contact Phone"
+                  type="tel"
+                  control={control}
+                  placeholder="e.g. +8801700000000"
+                  icon={Phone}
+                  required
+                />
+                <CustomIconInput
+                  name="email"
+                  label="Contact Email"
+                  type="email"
+                  control={control}
+                  placeholder="e.g. info@hospital.com"
+                  icon={Mail}
+                  required
+                />
+              </div>
 
-                <div className="grid gap-2 md:col-span-2">
-                  <Label className="text-sm font-semibold text-slate-700">Website URL</Label>
-                  <Input placeholder="www.hospital.com" className="border-slate-200 h-11 rounded-xl bg-slate-50/50" />
-                </div>
-                
-                <div className="flex items-center gap-3 md:col-span-2 mt-2">
-                  <Switch id={`bengali-support-${hospital?.id}`} defaultChecked={hospital?.bengali} className="data-[state=checked]:bg-blue-600" />
-                  <Label htmlFor={`bengali-support-${hospital?.id}`} className="text-sm font-semibold text-slate-700 cursor-pointer">
-                    Bengali Support Available
-                  </Label>
-                </div>
+              <div className="grid grid-cols-1 gap-4">
+                <CustomIconInput
+                  name="website"
+                  label="Website URL"
+                  type="url"
+                  control={control}
+                  placeholder="https://www.hospital.com"
+                  helperText="Optional"
+                  icon={Globe}
+                />
               </div>
             </div>
 
-            <div className="h-px bg-slate-100"></div>
+            {/* SECTION 2: Location & Address */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 pb-1 border-b border-slate-100">
+                <span className="h-5 w-5 rounded-full bg-teal-100 text-teal-700 text-xs font-bold flex items-center justify-center">
+                  2
+                </span>
+                <h3 className="text-xs font-bold tracking-wider uppercase text-teal-700">
+                  Location & Address
+                </h3>
+              </div>
 
-            <div>
-              <h3 className="text-sm font-bold text-slate-800 mb-4">Patient App Display Info</h3>
+              <div>
+                <CustomTextArea
+                  name="address"
+                  label="Hospital Address"
+                  control={control}
+                  placeholder="e.g. 2 Soi Soonvijai 7, New Petchburi Rd, Bangkok 10310"
+                  icon={MapPin}
+                  rows={3}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* SECTION 3: Hospital Media */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 pb-1 border-b border-slate-100">
+                <span className="h-5 w-5 rounded-full bg-purple-100 text-purple-700 text-xs font-bold flex items-center justify-center">
+                  3
+                </span>
+                <h3 className="text-xs font-bold tracking-wider uppercase text-purple-700">
+                  Hospital Media (Photo / Banner)
+                </h3>
+              </div>
+
+              <div className="space-y-1.5 text-left">
+                <div className="flex items-center justify-between">
+                  <Label
+                    htmlFor="update-hospital-image-input"
+                    className="text-xs sm:text-sm font-medium text-foreground/90 cursor-pointer select-none"
+                  >
+                    Hospital Photo
+                  </Label>
+                  <span className="text-[11px] text-muted-foreground">
+                    JPG, PNG, WEBP (Max 5MB)
+                  </span>
+                </div>
+
+                <input
+                  ref={fileInputRef}
+                  id="update-hospital-image-input"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+
+                {imagePreview ? (
+                  <div className="h-16 w-full rounded-xl border border-input bg-slate-50/70 px-4 flex items-center justify-between gap-3 transition-all">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <img
+                        src={imagePreview}
+                        alt="Hospital preview"
+                        className="size-11 rounded-lg object-cover border border-slate-200 shrink-0 shadow-xs"
+                      />
+                      <div className="min-w-0">
+                        <p className="text-xs text-slate-800 truncate font-semibold">
+                          {selectedImage?.name || "Current Hospital Photo"}
+                        </p>
+                        <p className="text-[11px] text-slate-400">
+                          {selectedImage
+                            ? `${(selectedImage.size / (1024 * 1024)).toFixed(2)} MB (New file)`
+                            : "Saved in Cloudinary"}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="text-xs text-blue-600 hover:text-blue-700 font-semibold px-2.5 py-1 rounded-md hover:bg-blue-50 transition-colors cursor-pointer"
+                      >
+                        Change Photo
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="p-1.5 rounded-md text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer"
+                        title="Remove photo"
+                      >
+                        <X className="size-4" />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="h-24 w-full rounded-xl border-2 border-dashed border-slate-300 hover:border-blue-500 bg-slate-50/50 hover:bg-blue-50/20 transition-colors flex flex-col items-center justify-center gap-1.5 cursor-pointer group"
+                  >
+                    <div className="h-8 w-8 rounded-full bg-blue-50 text-blue-600 group-hover:scale-105 transition-transform flex items-center justify-center">
+                      <Upload className="size-4 text-blue-600" />
+                    </div>
+                    <span className="text-xs font-semibold text-slate-700 group-hover:text-blue-600 transition-colors">
+                      Click to upload new hospital image
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      PNG, JPG, WEBP up to 5MB
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex flex-row gap-3 sm:justify-start w-full">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)} className="rounded-xl h-11 px-6 border-slate-200 hover:bg-white text-slate-600 font-semibold">
+          {/* Modal Footer: Only Save Changes and Cancel buttons */}
+          <DialogFooter className="m-0 p-5 border-t border-slate-100 bg-slate-50/70 flex flex-col sm:flex-row gap-3 sm:justify-between items-center w-full shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isLoading}
+              onClick={() => setOpen(false)}
+              className="rounded-xl h-11 px-6 border-slate-200 hover:bg-white text-slate-700 w-full sm:w-auto font-medium transition-colors cursor-pointer"
+            >
               Cancel
             </Button>
-            <Button type="button" variant="outline" className="rounded-xl h-11 px-6 border-slate-200 hover:bg-white text-slate-600 font-semibold">
-              Save Draft
+
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="rounded-xl h-11 px-8 bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-500 hover:from-blue-700 hover:via-cyan-700 hover:to-teal-600 text-white shadow-md shadow-blue-500/20 font-semibold w-full sm:w-auto cursor-pointer flex items-center justify-center gap-2 transition-all duration-200"
+            >
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
+              ) : (
+                <Save className="w-4 h-4 text-white" />
+              )}
+              <span>Save Changes</span>
             </Button>
-            <Button type="submit" className="rounded-xl h-11 px-8 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white shadow-sm font-semibold">
-              Save & Publish
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

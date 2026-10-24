@@ -91,7 +91,7 @@ const CustomSelect = ({
                   id={name}
                   aria-invalid={!!error}
                   className={cn(
-                    "h-10 w-full rounded-lg border border-input bg-transparent px-3 text-sm transition-colors outline-none cursor-pointer",
+                    "h-10 data-[size=default]:h-10 min-h-10 w-full rounded-lg border border-input bg-transparent px-3 text-sm transition-colors outline-none cursor-pointer",
                     "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
                     "disabled:cursor-not-allowed disabled:opacity-50",
                     "aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
