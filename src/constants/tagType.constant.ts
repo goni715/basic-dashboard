@@ -13,6 +13,9 @@ const TagTypes = {
     DASHBOARD: "Dashboard",
     HOSPITALS: "Hospitals",
     hospitals: "Hospitals",
+    AGENTS: "Agents",
+    SUB_AGENTS: "SubAgents",
+    AGENT_PATIENTS: "AgentPatients",
 } as const;
 
 export default TagTypes;

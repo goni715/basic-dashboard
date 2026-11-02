@@ -10,9 +10,9 @@ import {
   Hotel, 
   Lightbulb, 
   PlaySquare, 
-  HeadphonesIcon,
-  DollarSign
+  HeadphonesIcon
 } from "lucide-react";
+import TakaIcon from "@/components/icons/TakaIcon";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ const modules = [
   { name: "Health Tips", total: 58, pending: 16, icon: Lightbulb, color: "text-green-500", bg: "bg-green-50" },
   { name: "Tutorials", total: 45, pending: 14, icon: PlaySquare, color: "text-violet-500", bg: "bg-violet-50" },
   { name: "Support", total: 48, pending: 48, icon: HeadphonesIcon, color: "text-rose-500", bg: "bg-rose-50" },
-  { name: "Payments", total: 201, pending: 12, icon: DollarSign, color: "text-emerald-600", bg: "bg-emerald-50" },
+  { name: "Payments", total: 201, pending: 12, icon: TakaIcon, color: "text-emerald-600", bg: "bg-emerald-50" },
 ];
 
 export default function () {

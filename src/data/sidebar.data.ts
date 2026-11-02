@@ -15,6 +15,9 @@ import {
   Bell,
   BookOpen,
   HelpCircle,
+  Briefcase,
+  UserCheck,
+  ClipboardList,
 } from "lucide-react";
 import type { INavItem } from "@/types/sidebar.type";
 
@@ -23,6 +26,9 @@ export const navItems: INavItem[] = [
   { name: "Doctors", href: "/doctors", icon: Stethoscope },
   { name: "Doctor Access", href: "/doctor-access", icon: KeyRound },
   { name: "Patients", href: "/patients", icon: Users },
+  { name: "Agents", href: "/agents", icon: Briefcase },
+  { name: "Sub-Agents", href: "/sub-agents", icon: UserCheck },
+  { name: "Agent Patients", href: "/agent-patients", icon: ClipboardList },
   { name: "Appointments", href: "/appointments", icon: Calendar },
   { name: "Hospitals", href: "/hospitals", icon: Building2 },
   { name: "Medical Reports", href: "/reports", icon: FileText },

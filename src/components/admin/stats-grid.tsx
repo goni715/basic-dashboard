@@ -10,9 +10,9 @@ import {
   Hotel, 
   Lightbulb, 
   PlaySquare, 
-  HeadphonesIcon, 
-  DollarSign
+  HeadphonesIcon
 } from "lucide-react";
+import TakaIcon from "@/components/icons/TakaIcon";
 import { cn } from "@/lib/utils";
 
 const stats = [
@@ -108,7 +108,7 @@ const stats = [
     title: "Revenue",
     value: "৳18,75,000",
     description: "This month",
-    icon: DollarSign,
+    icon: TakaIcon,
     iconColor: "text-emerald-600",
     iconBg: "bg-emerald-50",
   },
