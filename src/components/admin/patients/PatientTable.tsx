@@ -87,9 +87,7 @@ export default function PatientTable({
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">Patient List</h2>
-            {isFetching && (
-              <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600" />
-            )}
+            
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Registered patients on the mobile healthcare platform.

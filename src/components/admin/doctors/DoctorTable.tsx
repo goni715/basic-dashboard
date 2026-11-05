@@ -187,9 +187,7 @@ export default function DoctorTable({
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">
               Doctor Profiles
             </h2>
-            {isFetching && (
-              <Loader2 className="h-4 w-4 animate-spin text-blue-600 shrink-0" />
-            )}
+            
             <Badge
               variant="secondary"
               className="bg-blue-50 text-blue-700 hover:bg-blue-50 font-bold px-2 py-0.5 rounded-full text-xs border-0"

@@ -113,9 +113,7 @@ export default function AgentTable({
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">
               Agent List
             </h2>
-            {isFetching && (
-              <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600" />
-            )}
+            
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Registered agency representatives and agents on the platform.

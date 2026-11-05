@@ -6,81 +6,200 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Plus } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FAQ_CATEGORY_OPTIONS } from "@/constants/faq.constant";
+import { useCreateFaqMutation } from "@/redux/features/faq/faqApi";
 
-const AddFaqModal = () => {
+interface AddFaqModalProps {
+  trigger?: React.ReactNode;
+}
+
+const AddFaqModal = ({ trigger }: AddFaqModalProps) => {
   const [open, setOpen] = useState(false);
 
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [category, setCategory] = useState("general");
+  const [isActive, setIsActive] = useState(true);
+
+  const [error, setError] = useState<string | null>(null);
+
+  const [createFaq, { isLoading }] = useCreateFaqMutation();
+
+  const handleOpenChange = (isOpen: boolean) => {
+    if (isOpen) {
+      setQuestion("");
+      setAnswer("");
+      setCategory("general");
+      setIsActive(true);
+      setError(null);
+    }
+    setOpen(isOpen);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!question.trim()) {
+      setError("Question is required");
+      return;
+    }
+    if (!answer.trim()) {
+      setError("Answer is required");
+      return;
+    }
+
+    try {
+      await createFaq({
+        question: question.trim(),
+        answer: answer.trim(),
+        category,
+        isActive,
+      }).unwrap();
+      setOpen(false);
+    } catch {
+      // toast is handled in RTK query
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button className="w-full sm:w-auto h-11 px-6 rounded-xl bg-[#00A3C4] hover:bg-[#008ba8] text-white font-semibold shadow-md gap-2" />}>
-          <Plus className="h-4 w-4" />
-          Add FAQ
-        </DialogTrigger>
-      <DialogContent className="w-[95vw] max-w-2xl p-0 overflow-hidden border-0 bg-white rounded-2xl shadow-xl flex flex-col max-h-[90vh]">
-        <DialogHeader className="px-6 py-4 border-b border-slate-100 shrink-0">
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger
+        render={
+          trigger ? (
+            (trigger as React.ReactElement)
+          ) : (
+            <Button className="w-full sm:w-auto h-10 px-5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-xs gap-2 cursor-pointer text-xs" />
+          )
+        }
+      >
+        {!trigger && (
+          <>
+            <Plus className="h-4 w-4" />
+            Add FAQ
+          </>
+        )}
+      </DialogTrigger>
+
+      <DialogContent className="w-[95vw] max-w-xl p-0 overflow-hidden border border-slate-100 bg-white rounded-2xl shadow-xl flex flex-col max-h-[90vh]">
+        <DialogHeader className="px-6 py-4 border-b border-slate-100 shrink-0 bg-gradient-to-r from-slate-50/80 to-blue-50/30">
           <DialogTitle className="text-lg font-bold text-slate-900">
             Add New FAQ
           </DialogTitle>
-          <p className="text-sm text-slate-500">Create a new frequently asked question for the patient app.</p>
+          <DialogDescription className="text-xs text-slate-500 mt-0.5">
+            Create a new frequently asked question for platform users.
+          </DialogDescription>
         </DialogHeader>
-        
-        <div className="p-4 md:p-6 overflow-y-auto flex-1 space-y-6">
-          <div className="space-y-4">
-            
+
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+          <div className="p-4 md:p-6 overflow-y-auto flex-1 space-y-4">
+            {error && (
+              <div className="p-3 text-xs bg-rose-50 text-rose-700 rounded-xl border border-rose-200 font-medium">
+                {error}
+              </div>
+            )}
+
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">Question <span className="text-rose-500">*</span></label>
-              <Input placeholder="e.g. How do I book an appointment?" className="h-11 bg-slate-50 border-slate-200" />
-            </div>
-            
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">Answer <span className="text-rose-500">*</span></label>
-              <Textarea placeholder="Provide a detailed answer..." className="min-h-[120px] bg-slate-50 border-slate-200 resize-none" />
+              <label className="text-xs font-bold text-slate-700">
+                Question <span className="text-rose-500">*</span>
+              </label>
+              <Input
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                placeholder="e.g. What services does this healthcare platform provide?"
+                className="h-10 bg-white border-slate-200 rounded-xl text-xs sm:text-sm focus-visible:ring-blue-500/20"
+              />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700">
+                Answer <span className="text-rose-500">*</span>
+              </label>
+              <Textarea
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="Provide a comprehensive answer..."
+                className="min-h-[120px] bg-white border-slate-200 rounded-xl text-xs sm:text-sm resize-none focus-visible:ring-blue-500/20"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Category</label>
-                <div className="relative">
-                  <select className="w-full h-11 px-3 bg-slate-50 border border-slate-200 rounded-md text-sm text-slate-900 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors">
-                    <option>General</option>
-                    <option>Appointments</option>
-                    <option>Payments</option>
-                    <option>Consultations</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                  </div>
-                </div>
+                <Select value={category} onValueChange={(val) => setCategory(val ?? "general")}>
+                  <SelectTrigger className="w-full bg-white border-slate-200 rounded-xl h-10 px-3 text-xs sm:text-sm">
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border border-slate-100 shadow-md">
+                    {FAQ_CATEGORY_OPTIONS.map((opt) => (
+                      <SelectItem
+                        key={opt.value}
+                        value={opt.value}
+                        className="text-xs sm:text-sm cursor-pointer"
+                      >
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-              
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-700 block">Status</label>
-                <div className="flex items-center gap-2 pt-2">
-                  <Switch id="faq-status-new" defaultChecked={true} className="data-[state=checked]:bg-emerald-500" />
-                  <Label htmlFor="faq-status-new" className="text-sm font-semibold text-slate-700">Published</Label>
+
+              <div className="space-y-1.5 flex flex-col justify-end">
+                <label className="text-xs font-bold text-slate-700">Status</label>
+                <div className="flex items-center gap-2 h-10 px-3 bg-slate-50/70 rounded-xl border border-slate-200">
+                  <Switch
+                    id="faq-status-new"
+                    checked={isActive}
+                    onCheckedChange={setIsActive}
+                    className="data-[state=checked]:bg-emerald-500 cursor-pointer"
+                  />
+                  <Label
+                    htmlFor="faq-status-new"
+                    className="text-xs font-semibold text-slate-700 cursor-pointer"
+                  >
+                    {isActive ? "Active" : "Inactive"}
+                  </Label>
                 </div>
               </div>
             </div>
-
           </div>
-        </div>
 
-        <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3 shrink-0">
-          <Button variant="outline" className="border-slate-200 text-slate-700 hover:bg-slate-100 h-10 px-6 rounded-xl font-medium" onClick={() => setOpen(false)}>
-            Cancel
-          </Button>
-          <Button className="h-10 px-6 rounded-xl bg-[#00A3C4] hover:bg-[#008ba8] text-white font-semibold shadow-sm">
-            Save FAQ
-          </Button>
-        </div>
+          <div className="px-6 py-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-end gap-3 shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isLoading}
+              className="border-slate-200 text-slate-700 hover:bg-slate-100 h-9 px-5 rounded-xl font-medium text-xs cursor-pointer"
+              onClick={() => setOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="h-9 px-5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-xs text-xs cursor-pointer"
+            >
+              {isLoading && <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />}
+              Save FAQ
+            </Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

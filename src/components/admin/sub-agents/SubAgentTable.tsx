@@ -92,9 +92,7 @@ export default function SubAgentTable({
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">
               Sub-Agents Referral Partners
             </h2>
-            {isFetching && (
-              <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600" />
-            )}
+            
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Active referral partners, case statistics, and performance tracking.

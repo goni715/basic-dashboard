@@ -16,6 +16,7 @@ const TagTypes = {
     AGENTS: "Agents",
     SUB_AGENTS: "SubAgents",
     AGENT_PATIENTS: "AgentPatients",
+    APPOINTMENTS: "Appointments",
 } as const;
 
 export default TagTypes;

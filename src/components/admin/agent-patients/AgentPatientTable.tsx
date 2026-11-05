@@ -143,9 +143,7 @@ export default function AgentPatientTable({
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">
               Agent Patients List
             </h2>
-            {isFetching && (
-              <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600" />
-            )}
+            
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Patients referred and managed by partner agencies and sub-agents.
