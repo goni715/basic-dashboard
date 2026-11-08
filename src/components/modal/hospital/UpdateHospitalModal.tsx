@@ -27,9 +27,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import CustomIconInput from "@/components/common/CustomIconInput";
+import CustomSelect from "@/components/common/CustomSelect";
 import CustomTextArea from "@/components/common/CustomTextArea";
 import ErrorAlert from "@/components/alert/ErrorAlert";
 import { ErrorToast } from "@/helpers/ValidationHelper";
+import { HOSPITAL_COUNTRY_OPTIONS } from "@/constants/hospital.constant";
 import { IHospital } from "@/types/hospital.type";
 import {
   updateHospitalSchema,
@@ -62,6 +64,7 @@ const UpdateHospitalModal = ({ hospital, trigger }: UpdateHospitalModalProps) =>
     resolver: zodResolver(updateHospitalSchema),
     defaultValues: {
       name: hospital?.name || "",
+      country: hospital?.country || "Thailand",
       address: hospital?.address || hospital?.location || "",
       contactNumber: hospital?.contactNumber || "",
       email: hospital?.email || "",
@@ -75,6 +78,7 @@ const UpdateHospitalModal = ({ hospital, trigger }: UpdateHospitalModalProps) =>
       dispatch(SetUpdateHospitalError(""));
       reset({
         name: hospital?.name || "",
+        country: hospital?.country || "Thailand",
         address: hospital?.address || hospital?.location || "",
         contactNumber: hospital?.contactNumber || "",
         email: hospital?.email || "",
@@ -131,6 +135,7 @@ const UpdateHospitalModal = ({ hospital, trigger }: UpdateHospitalModalProps) =>
 
     const payload: Record<string, unknown> = {
       name: data.name.trim(),
+      country: data.country,
       address: data.address.trim(),
       contactNumber: data.contactNumber.trim(),
       email: data.email.trim().toLowerCase(),
@@ -217,13 +222,22 @@ const UpdateHospitalModal = ({ hospital, trigger }: UpdateHospitalModalProps) =>
                 </h3>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <CustomIconInput
                   name="name"
                   label="Hospital Name"
                   control={control}
                   placeholder="e.g. Bangkok International Hospital"
                   icon={Building2}
+                  required
+                />
+                <CustomSelect
+                  name="country"
+                  label="Country"
+                  control={control}
+                  options={[...HOSPITAL_COUNTRY_OPTIONS]}
+                  placeholder="Select country"
+                  icon={Globe}
                   required
                 />
               </div>

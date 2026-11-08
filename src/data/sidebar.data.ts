@@ -13,7 +13,6 @@ import {
   Settings,
   Globe,
   Bell,
-  BookOpen,
   HelpCircle,
   Briefcase,
   UserCheck,
@@ -24,7 +23,7 @@ import type { INavItem } from "@/types/sidebar.type";
 export const navItems: INavItem[] = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Doctors", href: "/doctors", icon: Stethoscope },
-  { name: "Doctor Access", href: "/doctor-access", icon: KeyRound },
+  // { name: "Doctor Access", href: "/doctor-access", icon: KeyRound },
   { name: "Patients", href: "/patients", icon: Users },
   { name: "Agents", href: "/agents", icon: Briefcase },
   { name: "Sub-Agents", href: "/sub-agents", icon: UserCheck },
@@ -44,8 +43,10 @@ export const navItems: INavItem[] = [
       { name: "General", href: "/settings/general", icon: Settings },
       { name: "Countries & Languages", href: "/settings/countries-languages", icon: Globe },
       { name: "Notifications", href: "/settings/notifications", icon: Bell },
-      { name: "Legal & Support", href: "/settings/legal-support", icon: BookOpen },
       { name: "FAQs", href: "/settings/faqs", icon: HelpCircle },
+      { name: "Privacy Policy", href: "/settings/privacy-policy", icon: HelpCircle },
+      { name: "Terms & Conditions", href: "/settings/terms-condition", icon: ClipboardList },
+      { name: "About Us", href: "/settings/about-us", icon: Briefcase },
     ],
   },
 ];

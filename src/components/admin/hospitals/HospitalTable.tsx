@@ -251,13 +251,21 @@ export default function HospitalTable({
                       </div>
                     </TableCell>
 
-                    {/* Address */}
+                    {/* Address & Country */}
                     <TableCell>
-                      <div className="flex items-start gap-1.5 max-w-[240px]">
-                        <MapPin className="h-3.5 w-3.5 text-slate-400 shrink-0 mt-0.5" />
-                        <span className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                          {hospital.address || hospital.location || "N/A"}
-                        </span>
+                      <div className="flex flex-col gap-1 max-w-[240px]">
+                        {hospital.country && (
+                          <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700">
+                            <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
+                            {hospital.country}
+                          </div>
+                        )}
+                        <div className="flex items-start gap-1.5">
+                          <MapPin className="h-3.5 w-3.5 text-slate-400 shrink-0 mt-0.5" />
+                          <span className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                            {hospital.address || hospital.location || "N/A"}
+                          </span>
+                        </div>
                       </div>
                     </TableCell>
 

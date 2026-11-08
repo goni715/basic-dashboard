@@ -6,7 +6,6 @@ import {
   Settings,
   Globe,
   Bell,
-  BookOpen,
   HelpCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -15,7 +14,6 @@ export const settingsNavItems = [
   { name: "General", href: "/settings/general", icon: Settings },
   { name: "Countries & Languages", href: "/settings/countries-languages", icon: Globe },
   { name: "Notifications", href: "/settings/notifications", icon: Bell },
-  { name: "Legal & Support", href: "/settings/legal-support", icon: BookOpen },
   { name: "FAQs", href: "/settings/faqs", icon: HelpCircle },
 ];
 
@@ -46,6 +44,7 @@ export default function SettingsHeader({
             <Link
               key={tab.name}
               href={tab.href}
+              scroll={false}
               className={cn(
                 "flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap",
                 isActive

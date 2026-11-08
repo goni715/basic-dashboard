@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -16,6 +16,9 @@ import { useLogoutMutation } from "@/redux/features/auth/authApi";
 import LogoutConfirmModal from "@/components/modal/auth/LogoutConfirmModal";
 import { navItems } from "@/data/sidebar.data";
 
+// Module-level variable so sidebar scroll position persists across client navigation
+let savedSidebarScrollTop = 0;
+
 export default function Sidebar({
   hideMobile,
   hideDesktop,
@@ -28,6 +31,7 @@ export default function Sidebar({
   const [open, setOpen] = useState(false);
   const [settingsExpanded, setSettingsExpanded] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const desktopScrollRef = useRef<HTMLDivElement>(null);
 
   // Auto-expand Settings whenever the user is on any /settings route
   useEffect(() => {
@@ -35,6 +39,17 @@ export default function Sidebar({
       setSettingsExpanded(true);
     }
   }, [pathname]);
+
+  // Restore sidebar scroll position on route change or initial mount
+  useEffect(() => {
+    if (desktopScrollRef.current && savedSidebarScrollTop > 0) {
+      desktopScrollRef.current.scrollTop = savedSidebarScrollTop;
+    }
+  }, [pathname, settingsExpanded]);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    savedSidebarScrollTop = e.currentTarget.scrollTop;
+  };
 
   const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
 
@@ -49,13 +64,17 @@ export default function Sidebar({
     }
   };
 
-  const NavContent = () => (
+  const NavContent = ({ scrollRef }: { scrollRef?: React.RefObject<HTMLDivElement | null> }) => (
     <div className="flex h-full flex-col">
       <div className="flex h-[88px] items-center gap-3 px-6 border-b border-slate-100 shrink-0 justify-center">
         <img src="/logo.jpeg" alt="3S Medicare Logo" className="h-14 w-auto object-contain" />
       </div>
 
-      <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-4 scrollbar-hide">
+      <div
+        ref={scrollRef}
+        onScroll={scrollRef ? handleScroll : undefined}
+        className="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-4 scrollbar-hide"
+      >
         {navItems.map((item) => {
           const hasChildren = Boolean(item.children && item.children.length > 0);
           const isSectionActive =
@@ -103,6 +122,7 @@ export default function Sidebar({
                         <Link
                           key={subItem.name}
                           href={subItem.href}
+                          scroll={false}
                           onClick={() => setOpen(false)}
                           className={cn(
                             "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] transition-all",
@@ -125,7 +145,7 @@ export default function Sidebar({
           const isActive = pathname === item.href || (pathname === "/" && item.name === "Dashboard");
 
           return (
-            <Link key={item.name} href={item.href} onClick={() => setOpen(false)}>
+            <Link key={item.name} href={item.href} scroll={false} onClick={() => setOpen(false)}>
               <div
                 className={cn(
                   "flex items-center gap-3 rounded-xl px-4 py-[14px] text-[15px] font-medium transition-colors",
@@ -160,7 +180,7 @@ export default function Sidebar({
     <>
       {!hideDesktop && (
         <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r bg-white flex-col hidden md:flex">
-          <NavContent />
+          <NavContent scrollRef={desktopScrollRef} />
         </aside>
       )}
 

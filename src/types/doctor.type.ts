@@ -11,6 +11,7 @@ export interface ICreateDoctorPayload {
     phone: string;
     password?: string;
     specialization: string;
+    country?: string;
     bmdcNumber?: string;
     designation?: string;
     education?: string;
@@ -34,6 +35,7 @@ export interface IDoctor {
     profileImg?: string;
     userStatus?: TDoctorUserStatus | string;
     specialization?: string;
+    country?: string;
     hospital?: string;
     designation?: string;
     education?: string | string[];

@@ -3,6 +3,7 @@ export type THospitalStatus = 'draft' | 'published' | 'archive';
 
 export interface ICreateHospitalPayload {
   name: string;
+  country?: string;
   address: string;
   contactNumber: string;
   email: string;
@@ -15,6 +16,7 @@ export interface IHospital {
   _id?: string;
   id?: string;
   name: string;
+  country?: string;
   slug?: string;
   image?: string;
   address?: string;
@@ -31,7 +33,6 @@ export interface IHospital {
 
   // Optional legacy compatibility fields
   location?: string;
-  country?: string;
   city?: string;
   specialties?: string[];
   moreSpecialties?: string;

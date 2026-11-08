@@ -28,9 +28,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import CustomIconInput from "@/components/common/CustomIconInput";
+import CustomSelect from "@/components/common/CustomSelect";
 import CustomTextArea from "@/components/common/CustomTextArea";
 import ErrorAlert from "@/components/alert/ErrorAlert";
 import { ErrorToast } from "@/helpers/ValidationHelper";
+import { HOSPITAL_COUNTRY_OPTIONS } from "@/constants/hospital.constant";
 import {
   createHospitalSchema,
   type TCreateHospitalFormValues,
@@ -58,6 +60,7 @@ const CreateHospitalModal = () => {
     resolver: zodResolver(createHospitalSchema),
     defaultValues: {
       name: "",
+      country: "",
       address: "",
       contactNumber: "",
       email: "",
@@ -128,6 +131,7 @@ const CreateHospitalModal = () => {
 
     const payload: Record<string, unknown> = {
       name: data.name.trim(),
+      country: data.country,
       address: data.address.trim(),
       contactNumber: data.contactNumber.trim(),
       email: data.email.trim().toLowerCase(),
@@ -216,13 +220,22 @@ const CreateHospitalModal = () => {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <CustomIconInput
                   name="name"
                   label="Hospital Name"
                   control={control}
                   placeholder="e.g. Bangkok International Hospital"
                   icon={Building2}
+                  required
+                />
+                <CustomSelect
+                  name="country"
+                  label="Country"
+                  control={control}
+                  options={[...HOSPITAL_COUNTRY_OPTIONS]}
+                  placeholder="Select country"
+                  icon={Globe}
                   required
                 />
               </div>
