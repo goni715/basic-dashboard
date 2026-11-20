@@ -96,7 +96,7 @@ function AgentManagementContent() {
 
   const totalCount = meta?.total ?? agents.length;
   const activeCount = agents.filter(
-    (a) => (a.status || "").toLowerCase() === "active"
+    (a) => ((a.userStatus || a.status || "") as string).toLowerCase() === "active"
   ).length;
   const pendingApprovalCount = agents.filter(
     (a) => (a.approvalStatus || "").toLowerCase() === "pending"

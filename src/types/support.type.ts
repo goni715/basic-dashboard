@@ -1,30 +1,43 @@
-export interface ISupportUser {
-  _id?: string;
-  fullName?: string;
-  email?: string;
-  profileImg?: string;
-}
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export type TSupportStatus = "open" | "in_progress" | "closed" | string;
 
-export interface ISupport {
-  _id?: string;
-  id?: string;
-  user?: ISupportUser;
-  subject?: string;
-  message?: string;
-  status?: "pending" | "resolved" | "in-progress" | string;
-  priority?: "low" | "medium" | "high" | string;
+export interface ISupportItem {
+  _id: string;
+  ticket?: string;
+  fullName: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+  replyMessage?: string;
+  replyAt?: string | null;
+  status: TSupportStatus;
   createdAt?: string;
   updatedAt?: string;
 }
 
+// Backward compatibility alias
+export type ISupport = ISupportItem;
+
+export interface ISupportPaginationMeta {
+  page: number;
+  limit: number;
+  totalPages: number;
+  total: number;
+}
+
 export interface ISupportResponse {
-  statusCode: number;
+  statusCode?: number;
   success: boolean;
   message: string;
-  meta?: {
-    page: number;
-    limit: number;
-    total: number;
-  };
-  data: ISupport[];
+  meta?: ISupportPaginationMeta;
+  data: ISupportItem[];
+}
+
+export interface ISupportQueryParams {
+  searchTerm?: string;
+  status?: string;
+  page?: number;
+  limit?: number;
+  [key: string]: any;
 }

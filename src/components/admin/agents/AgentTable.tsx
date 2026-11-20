@@ -285,7 +285,7 @@ export default function AgentTable({
 
                     {/* Status */}
                     <TableCell className="whitespace-nowrap">
-                      {renderStatusBadge(agent.status)}
+                      {renderStatusBadge(agent.userStatus || agent.status)}
                     </TableCell>
 
                     {/* Approval Status */}

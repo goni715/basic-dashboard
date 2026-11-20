@@ -37,7 +37,7 @@ export default function AgentDetailsModal({
 
   const displayName = agent?.fullName || "Agent Profile";
   const agency = agent?.agencyName || "N/A";
-  const status = (agent?.status || "pending").toLowerCase();
+  const status = (agent?.userStatus || agent?.status || "pending").toLowerCase();
   const approvalStatus = (agent?.approvalStatus || "pending").toLowerCase();
 
   const getInitials = (name?: string) => {

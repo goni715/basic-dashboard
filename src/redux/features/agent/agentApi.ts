@@ -5,7 +5,9 @@ import { IParam } from "@/types/global.type";
 import {
   IGetAgentsResponse,
   IAgentQueryParams,
+  ICreateAgentPayload,
 } from "@/types/agent.type";
+import { SuccessToast, ErrorToast } from "@/helpers/ValidationHelper";
 
 export const agentApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -46,8 +48,36 @@ export const agentApi = apiSlice.injectEndpoints({
       },
       providesTags: [TagTypes.AGENTS],
     }),
+
+    createAgent: builder.mutation<
+      { success: boolean; message: string; data: any },
+      ICreateAgentPayload
+    >({
+      query: (data) => ({
+        url: "/agent/create-agent",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: (result) => {
+        if (result?.success) {
+          return [TagTypes.AGENTS];
+        }
+        return [TagTypes.AGENTS];
+      },
+      async onQueryStarted(_arg, { queryFulfilled }) {
+        try {
+          const res = await queryFulfilled;
+          SuccessToast(res?.data?.message || "Agent is created successfully");
+        } catch (err: any) {
+          const message =
+            err?.error?.data?.message ||
+            err?.error?.data?.error ||
+            "Failed to create agent";
+          ErrorToast(message);
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetAgentsQuery } = agentApi;
-
+export const { useGetAgentsQuery, useCreateAgentMutation } = agentApi;

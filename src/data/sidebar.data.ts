@@ -17,6 +17,7 @@ import {
   Briefcase,
   UserCheck,
   ClipboardList,
+  LifeBuoy,
 } from "lucide-react";
 import type { INavItem } from "@/types/sidebar.type";
 
@@ -35,6 +36,7 @@ export const navItems: INavItem[] = [
   { name: "Hotels", href: "/hotels", icon: Hotel },
   { name: "Health Tips", href: "/health-tips", icon: Lightbulb },
   { name: "Tutorials", href: "/tutorials", icon: PlaySquare },
+  { name: "Supports", href: "/supports", icon: LifeBuoy },
   {
     name: "Settings",
     href: "/settings/general",

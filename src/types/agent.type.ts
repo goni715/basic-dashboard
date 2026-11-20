@@ -2,6 +2,14 @@
 export type TAgentStatus = "active" | "pending" | "blocked" | string;
 export type TAgentApprovalStatus = "approved" | "pending" | "rejected" | string;
 
+export interface ICreateAgentPayload {
+  fullName: string;
+  email: string;
+  phone: string;
+  agencyName: string;
+  password: string;
+}
+
 export interface IAgent {
   _id?: string;
   id?: string;
@@ -43,4 +51,3 @@ export interface IAgentQueryParams {
   sortOrder?: "asc" | "desc";
   [key: string]: any;
 }
-

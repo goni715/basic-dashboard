@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import CreateAgentModal from "@/components/modal/agent/CreateAgentModal";
 
 interface AgentFiltersProps {
   searchTerm: string;
@@ -155,6 +156,10 @@ export default function AgentFilters({
             <span>Reset</span>
           </Button>
         )}
+      </div>
+
+      <div className="w-full sm:w-auto flex justify-end">
+        <CreateAgentModal />
       </div>
     </div>
   );
