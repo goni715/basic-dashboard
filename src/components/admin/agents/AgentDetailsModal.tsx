@@ -69,10 +69,10 @@ export default function AgentDetailsModal({
       <DialogContent className="sm:max-w-[540px] p-0 rounded-2xl gap-0 overflow-hidden bg-white border border-slate-100 shadow-2xl">
         <div className="p-6 pb-4 border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-blue-50/30">
           <DialogTitle className="text-xl font-bold text-slate-900 tracking-tight">
-            Agent Details
+            Channel Partner Details
           </DialogTitle>
           <DialogDescription className="text-slate-500 text-xs mt-0.5">
-            Complete agent profile and verification overview.
+            Complete channel partner profile and verification overview.
           </DialogDescription>
         </div>
 

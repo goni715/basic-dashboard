@@ -16,13 +16,13 @@ export default function SubAgentStats({
 }: SubAgentStatsProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {/* Total Sub-Agents */}
+      {/* Total Referral Partners */}
       <div className="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex flex-col justify-between">
         <div className="h-10 w-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-2">
           <Users className="h-5 w-5" />
         </div>
         <h2 className="text-2xl font-bold text-slate-900">{total}</h2>
-        <p className="text-slate-500 text-sm font-medium">Total Sub-Agents</p>
+        <p className="text-slate-500 text-sm font-medium">Total Referral Partners</p>
       </div>
 
       {/* Active Sub-Agents */}

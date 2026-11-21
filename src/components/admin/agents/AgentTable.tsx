@@ -111,19 +111,19 @@ export default function AgentTable({
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-              Agent List
+              Channel Partner List
             </h2>
             
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Registered agency representatives and agents on the platform.
+            Registered agency representatives and channel partners on the platform.
           </p>
         </div>
 
         {meta?.total !== undefined && (
           <div className="text-xs font-semibold text-slate-500 bg-slate-100/70 px-3 py-1.5 rounded-lg w-fit">
             Total: <span className="text-slate-900 font-bold">{meta.total}</span>{" "}
-            Agents
+            Partners
           </div>
         )}
       </div>
@@ -134,7 +134,7 @@ export default function AgentTable({
           <TableHeader className="bg-slate-50/60">
             <TableRow className="border-slate-100 hover:bg-transparent">
               <TableHead className="font-semibold text-slate-500 whitespace-nowrap py-3.5 px-6 text-xs uppercase tracking-wider">
-                Agent Info
+                Partner Info
               </TableHead>
               <TableHead className="font-semibold text-slate-500 whitespace-nowrap text-xs uppercase tracking-wider">
                 Agency Name
@@ -199,10 +199,10 @@ export default function AgentTable({
                       <User className="h-6 w-6" />
                     </div>
                     <p className="text-base font-semibold text-slate-800">
-                      No Agents Found
+                      No Channel Partners Found
                     </p>
                     <p className="text-xs text-slate-400">
-                      No agents match your selected search or filter criteria.
+                      No channel partners match your selected search or filter criteria.
                     </p>
                   </div>
                 </TableCell>

@@ -20,7 +20,7 @@ export default function AgentStats({
           <Users className="h-5 w-5" />
         </div>
         <h2 className="text-2xl font-bold text-slate-900">{total}</h2>
-        <p className="text-slate-500 text-sm font-medium">Total Agents</p>
+        <p className="text-slate-500 text-sm font-medium">Total Channel Partners</p>
       </div>
 
       <div className="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex flex-col justify-between">
@@ -28,7 +28,7 @@ export default function AgentStats({
           <div className="h-3.5 w-3.5 bg-emerald-500 rounded-full ring-4 ring-emerald-200"></div>
         </div>
         <h2 className="text-2xl font-bold text-slate-900">{active}</h2>
-        <p className="text-slate-500 text-sm font-medium">Active Agents</p>
+        <p className="text-slate-500 text-sm font-medium">Active Partners</p>
       </div>
 
       <div className="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex flex-col justify-between">
@@ -44,7 +44,7 @@ export default function AgentStats({
           <CheckCircle2 className="h-5 w-5 text-violet-600" />
         </div>
         <h2 className="text-2xl font-bold text-slate-900">{approved}</h2>
-        <p className="text-slate-500 text-sm font-medium">Approved Agents</p>
+        <p className="text-slate-500 text-sm font-medium">Approved Partners</p>
       </div>
     </div>
   );

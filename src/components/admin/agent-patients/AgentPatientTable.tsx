@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -12,6 +13,9 @@ import {
   Building2,
   Paperclip,
   CreditCard,
+  MoreVertical,
+  Banknote,
+  Coins,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -24,12 +28,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   IAgentPatient,
   IAgentPatientPaginationMeta,
 } from "@/types/agent-patient.type";
+import TakaIcon from "@/components/icons/TakaIcon";
 import AgentPatientDetailsModal from "./AgentPatientDetailsModal";
 import ManageCommissionModal from "./ManageCommissionModal";
 import ManagePaymentStatusModal from "./ManagePaymentStatusModal";
+import ManageRevenueModal from "./ManageRevenueModal";
 
 interface AgentPatientTableProps {
   patientCases?: IAgentPatient[];
@@ -52,6 +64,10 @@ export default function AgentPatientTable({
   limit = 10,
   onLimitChange,
 }: AgentPatientTableProps) {
+  const [activeRevenueCase, setActiveRevenueCase] = useState<IAgentPatient | null>(null);
+  const [activeCommissionCase, setActiveCommissionCase] = useState<IAgentPatient | null>(null);
+  const [activePaymentStatusCase, setActivePaymentStatusCase] = useState<IAgentPatient | null>(null);
+
   const getInitials = (name?: string) => {
     if (!name) return "PT";
     const parts = name.trim().split(" ");
@@ -141,12 +157,12 @@ export default function AgentPatientTable({
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-              Agent Patients List
+              Partner Patients List
             </h2>
             
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Patients referred and managed by partner agencies and sub-agents.
+            Patients referred and managed by channel partners and referral partners.
           </p>
         </div>
 
@@ -176,10 +192,13 @@ export default function AgentPatientTable({
                 Referred By
               </TableHead>
               <TableHead className="font-semibold text-slate-500 whitespace-nowrap text-xs uppercase tracking-wider">
-                Agent Commission
+                Revenue
               </TableHead>
               <TableHead className="font-semibold text-slate-500 whitespace-nowrap text-xs uppercase tracking-wider">
-                Sub-Agent Commission
+                Channel Partner Commission
+              </TableHead>
+              <TableHead className="font-semibold text-slate-500 whitespace-nowrap text-xs uppercase tracking-wider">
+                Referral Partner Commission
               </TableHead>
               <TableHead className="font-semibold text-slate-500 whitespace-nowrap text-xs uppercase tracking-wider">
                 Status
@@ -325,43 +344,74 @@ export default function AgentPatientTable({
                             <Building2 className="h-3 w-3" />
                             {patientCase.subAgent?.agencyName ||
                               patientCase.subAgent?.fullName ||
-                              "Sub-Agent"}
+                              "Referral Partner"}
                           </span>
                         ) : (
                           <span className="text-[11px] text-slate-400">
-                            Direct Agent
+                            Channel Partner Direct
                           </span>
                         )}
                       </div>
                     </TableCell>
 
+                    {/* Revenue */}
+                    <TableCell>
+                      <div className="flex flex-col gap-0.5 items-start">
+                        <span className="text-xs font-bold text-emerald-600">
+                          ৳{patientCase.revenue ?? 0}
+                        </span>
+                      </div>
+                    </TableCell>
+
                     {/* Agent Commission & Payment */}
                     <TableCell>
-                      <div className="flex flex-col gap-1 items-start">
-                        <span className="text-xs font-bold text-slate-900">
-                          ৳{patientCase.agentCommissionFee ?? 0}
+                      {patientCase.agentUserId || patientCase.agent?._id ? (
+                        <div className="flex flex-col gap-1 items-start">
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs font-bold text-slate-900">
+                              ৳{patientCase.agentCommissionFee ?? 0}
+                            </span>
+                            {patientCase.agentCommissionPercentage !== undefined &&
+                              patientCase.agentCommissionPercentage !== null && (
+                                <span className="text-[10px] text-slate-400 font-medium">
+                                  ({patientCase.agentCommissionPercentage}%)
+                                </span>
+                              )}
+                          </div>
+                          {renderPaymentBadge(patientCase.agentPaymentStatus)}
+                        </div>
+                      ) : (
+                        <span className="text-xs text-slate-400 italic">
+                          No Channel Partner
                         </span>
-                        {renderPaymentBadge(patientCase.agentPaymentStatus)}
-                      </div>
+                      )}
                     </TableCell>
 
                     {/* Sub-Agent Commission & Payment */}
                     <TableCell>
                       {hasSubAgent ? (
                         <div className="flex flex-col gap-1 items-start">
-                          <span className="text-xs font-bold text-slate-900">
-                            ৳
-                            {patientCase.subAgentCommissionFee ??
-                              patientCase.subAgentCommission ??
-                              0}
-                          </span>
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs font-bold text-slate-900">
+                              ৳
+                              {patientCase.subAgentCommissionFee ??
+                                patientCase.subAgentCommission ??
+                                0}
+                            </span>
+                            {patientCase.subAgentCommissionPercentage !== undefined &&
+                              patientCase.subAgentCommissionPercentage !== null && (
+                                <span className="text-[10px] text-slate-400 font-medium">
+                                  ({patientCase.subAgentCommissionPercentage}%)
+                                </span>
+                              )}
+                          </div>
                           {renderPaymentBadge(
                             patientCase.subAgentPaymentStatus
                           )}
                         </div>
                       ) : (
                         <span className="text-xs text-slate-400 italic">
-                          No Sub-Agent
+                          No Referral Partner
                         </span>
                       )}
                     </TableCell>
@@ -374,11 +424,53 @@ export default function AgentPatientTable({
                     {/* Actions */}
                     <TableCell className="text-right px-6">
                       <div className="flex items-center justify-end gap-1.5">
-                        {/* Manage Commission */}
-                        <ManageCommissionModal patientCase={patientCase} />
+                        {/* 3-Dot Dropdown for Revenue, Commission, Payment Status */}
+                        <DropdownMenu>
+                          <DropdownMenuTrigger
+                            render={
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="h-8 w-8 p-0 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg shadow-2xs transition-colors cursor-pointer"
+                                title="Manage Patient Actions"
+                              >
+                                <MoreVertical className="h-4 w-4" />
+                              </Button>
+                            }
+                          />
+                          <DropdownMenuContent
+                            align="end"
+                            sideOffset={4}
+                            className="w-48 p-1.5 rounded-xl border border-slate-100 bg-white shadow-xl text-xs space-y-0.5"
+                          >
+                            {/* Revenue Action */}
+                            <DropdownMenuItem
+                              onClick={() => setActiveRevenueCase(patientCase)}
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-700 hover:text-blue-600 hover:bg-blue-50 cursor-pointer font-medium transition-colors"
+                            >
+                              <TakaIcon className="h-3.5 w-3.5 text-blue-600 shrink-0" />
+                              <span>Update Revenue</span>
+                            </DropdownMenuItem>
 
-                        {/* Manage Payment Status */}
-                        <ManagePaymentStatusModal patientCase={patientCase} />
+                            {/* Commission Action */}
+                            <DropdownMenuItem
+                              onClick={() => setActiveCommissionCase(patientCase)}
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-700 hover:text-emerald-600 hover:bg-emerald-50 cursor-pointer font-medium transition-colors"
+                            >
+                              <Coins className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                              <span>Manage Commission</span>
+                            </DropdownMenuItem>
+
+                            {/* Payment Status Action */}
+                            <DropdownMenuItem
+                              onClick={() => setActivePaymentStatusCase(patientCase)}
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-700 hover:text-purple-600 hover:bg-purple-50 cursor-pointer font-medium transition-colors"
+                            >
+                              <CreditCard className="h-3.5 w-3.5 text-purple-600 shrink-0" />
+                              <span>Payment Status</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
 
                         {/* View Details */}
                         <AgentPatientDetailsModal patientCase={patientCase} />
@@ -449,6 +541,30 @@ export default function AgentPatientTable({
             </div>
           </div>
         </div>
+      )}
+      {/* Modals rendered when selected from 3-dot dropdown */}
+      {activeRevenueCase && (
+        <ManageRevenueModal
+          patientCase={activeRevenueCase}
+          open={Boolean(activeRevenueCase)}
+          onOpenChange={(open) => !open && setActiveRevenueCase(null)}
+        />
+      )}
+
+      {activeCommissionCase && (
+        <ManageCommissionModal
+          patientCase={activeCommissionCase}
+          open={Boolean(activeCommissionCase)}
+          onOpenChange={(open) => !open && setActiveCommissionCase(null)}
+        />
+      )}
+
+      {activePaymentStatusCase && (
+        <ManagePaymentStatusModal
+          patientCase={activePaymentStatusCase}
+          open={Boolean(activePaymentStatusCase)}
+          onOpenChange={(open) => !open && setActivePaymentStatusCase(null)}
+        />
       )}
     </div>
   );

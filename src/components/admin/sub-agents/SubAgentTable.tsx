@@ -90,7 +90,7 @@ export default function SubAgentTable({
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-              Sub-Agents Referral Partners
+              Referral Partners
             </h2>
             
           </div>
@@ -190,7 +190,7 @@ export default function SubAgentTable({
                       <User className="h-6 w-6" />
                     </div>
                     <p className="text-base font-semibold text-slate-800">
-                      No Sub-Agents Found
+                      No Referral Partners Found
                     </p>
                     <p className="text-xs text-slate-400">
                       No referral partners match your search or filter criteria.

@@ -85,21 +85,22 @@ function AgentPatientsManagementContent() {
 
   const patientCases = data?.data || [];
   const meta = data?.meta;
+  const statusCounts = data?.statusCounts;
 
-  const totalCount = meta?.total ?? patientCases.length;
-  const submittedCount = patientCases.filter(
+  const totalCount = statusCounts?.all ?? meta?.total ?? patientCases.length;
+  const submittedCount = statusCounts?.submitted ?? patientCases.filter(
     (c) => (c.status || "").toLowerCase() === "submitted"
   ).length;
-  const underReviewCount = patientCases.filter(
+  const underReviewCount = statusCounts?.under_review ?? patientCases.filter(
     (c) => (c.status || "").toLowerCase() === "under_review"
   ).length;
-  const confirmedCount = patientCases.filter(
+  const confirmedCount = statusCounts?.confirmed ?? patientCases.filter(
     (c) => (c.status || "").toLowerCase() === "confirmed"
   ).length;
-  const ongoingCount = patientCases.filter(
+  const ongoingCount = statusCounts?.ongoing ?? patientCases.filter(
     (c) => (c.status || "").toLowerCase() === "ongoing"
   ).length;
-  const completedCount = patientCases.filter(
+  const completedCount = statusCounts?.completed ?? patientCases.filter(
     (c) => (c.status || "").toLowerCase() === "completed"
   ).length;
 
@@ -108,10 +109,10 @@ function AgentPatientsManagementContent() {
       {/* Page Header */}
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Agent Patients
+          Partner Patients
         </h1>
         <p className="text-slate-500 text-sm">
-          Track and manage medical cases referred by partner agencies and sub-agents.
+          Track and manage medical cases referred by channel partners and referral partners.
         </p>
       </div>
 

@@ -77,7 +77,7 @@ export default function AgentFilters({
           <Input
             value={searchValue}
             onChange={handleInputChange}
-            placeholder="Search agent name, agency, email, phone..."
+            placeholder="Search partner name, agency, email, phone..."
             className="pl-9 pr-9 bg-white border-slate-200 rounded-xl h-10 py-2 w-full text-sm shadow-xs focus-visible:ring-2 focus-visible:ring-blue-500/20"
           />
           {searchValue && (

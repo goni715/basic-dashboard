@@ -171,6 +171,16 @@ export default function AgentPatientDetailsModal({
 
             <div className="bg-slate-50/60 p-3 rounded-xl border border-slate-100">
               <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+                Treatment Revenue
+              </span>
+              <span className="text-xs font-bold text-emerald-600 mt-1 flex items-center gap-1">
+                <TakaIcon className="h-3.5 w-3.5" />
+                {patientCase.revenue ?? 0}
+              </span>
+            </div>
+
+            <div className="bg-slate-50/60 p-3 rounded-xl border border-slate-100">
+              <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
                 Created At
               </span>
               <span className="text-xs font-bold text-slate-900 mt-1 flex items-center gap-1.5">
@@ -194,12 +204,12 @@ export default function AgentPatientDetailsModal({
             </div>
           )}
 
-          {/* Referring Agents Information */}
+          {/* Referring Channel & Referral Partners Information */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-            {/* Main Agent */}
+            {/* Channel Partner */}
             <div className="p-3.5 rounded-xl border border-slate-200/80 bg-slate-50/40">
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-2">
-                Referring Agent
+                Channel Partner
               </span>
               {patientCase.agent ? (
                 <div className="space-y-1 text-xs">
@@ -210,14 +220,14 @@ export default function AgentPatientDetailsModal({
                   <div className="text-slate-500">{patientCase.agent.phone}</div>
                 </div>
               ) : (
-                <span className="text-xs text-slate-400 italic">No agent assigned</span>
+                <span className="text-xs text-slate-400 italic">No channel partner assigned</span>
               )}
             </div>
 
-            {/* Sub-Agent */}
+            {/* Referral Partner */}
             <div className="p-3.5 rounded-xl border border-slate-200/80 bg-slate-50/40">
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-2">
-                Sub-Agent Partner
+                Referral Partner
               </span>
               {patientCase.subAgent ? (
                 <div className="space-y-1 text-xs">
@@ -233,7 +243,7 @@ export default function AgentPatientDetailsModal({
                   <div className="text-slate-500">{patientCase.subAgent.phone}</div>
                 </div>
               ) : (
-                <span className="text-xs text-slate-400 italic">Direct agent referral</span>
+                <span className="text-xs text-slate-400 italic">Direct channel referral</span>
               )}
             </div>
           </div>

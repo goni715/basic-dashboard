@@ -22,16 +22,26 @@ import {
 interface ManagePaymentStatusModalProps {
   patientCase: IAgentPatient;
   trigger?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export default function ManagePaymentStatusModal({
   patientCase,
   trigger,
+  open: controlledOpen,
+  onOpenChange: setControlledOpen,
 }: ManagePaymentStatusModalProps) {
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = isControlled ? setControlledOpen! : setInternalOpen;
 
+  const hasAgent = Boolean(
+    patientCase.agentUserId || patientCase.agent?._id || patientCase.agent?.id
+  );
   const hasSubAgent = Boolean(
-    patientCase.subAgentId || patientCase.subAgent?._id
+    patientCase.subAgentId || patientCase.subAgent?._id || patientCase.subAgent?.id
   );
 
   const agentPaymentStatus = (patientCase.agentPaymentStatus || "unpaid").toLowerCase();
@@ -116,70 +126,78 @@ export default function ManagePaymentStatusModal({
         </div>
 
         <div className="p-6 space-y-5">
-          {/* 1. Main Agent Payment Status (Always on top) */}
-          <div className="bg-blue-50/40 border border-blue-200/60 p-4 rounded-xl space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4 text-blue-600" />
-                <span className="text-xs font-bold text-slate-900">
-                  Agent Payment
+          {!hasAgent && !hasSubAgent && (
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center text-xs text-slate-500">
+              No Channel Partner or Referral Partner assigned to this case.
+            </div>
+          )}
+
+          {/* 1. Main Channel Partner Payment Status (Shown only if agentUserId / agent exists) */}
+          {hasAgent && (
+            <div className="bg-blue-50/40 border border-blue-200/60 p-4 rounded-xl space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-blue-600" />
+                  <span className="text-xs font-bold text-slate-900">
+                    Channel Partner Payment
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-blue-800 bg-blue-100/70 px-2 py-0.5 rounded font-medium">
+                  Fee: ৳{patientCase.agentCommissionFee ?? 0}
                 </span>
               </div>
-              <span className="text-[11px] font-mono text-blue-800 bg-blue-100/70 px-2 py-0.5 rounded font-medium">
-                Fee: ৳{patientCase.agentCommissionFee ?? 0}
-              </span>
-            </div>
 
-            <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-blue-100">
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-600">Current Status:</span>
-                <Badge
+              <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-blue-100">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-600">Current Status:</span>
+                  <Badge
+                    variant="outline"
+                    className={`text-xs font-semibold capitalize ${
+                      agentPaymentStatus === "paid"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : "bg-rose-50 text-rose-700 border-rose-200"
+                    }`}
+                  >
+                    {agentPaymentStatus}
+                  </Badge>
+                </div>
+
+                <Button
+                  size="sm"
                   variant="outline"
-                  className={`text-xs font-semibold capitalize ${
+                  disabled={isUpdatingAgent}
+                  onClick={() =>
+                    handleToggleAgentStatus(
+                      agentPaymentStatus === "paid" ? "unpaid" : "paid"
+                    )
+                  }
+                  className={`h-8 px-3 text-xs font-semibold rounded-lg cursor-pointer transition-colors ${
                     agentPaymentStatus === "paid"
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                      : "bg-rose-50 text-rose-700 border-rose-200"
+                      ? "border-rose-200 text-rose-700 hover:bg-rose-50"
+                      : "border-emerald-200 text-emerald-700 hover:bg-emerald-50"
                   }`}
                 >
-                  {agentPaymentStatus}
-                </Badge>
+                  {isUpdatingAgent ? (
+                    <Loader2 className="h-3 w-3 animate-spin mr-1" />
+                  ) : agentPaymentStatus === "paid" ? (
+                    <XCircle className="h-3.5 w-3.5 mr-1" />
+                  ) : (
+                    <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
+                  )}
+                  Mark as {agentPaymentStatus === "paid" ? "Unpaid" : "Paid"}
+                </Button>
               </div>
-
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={isUpdatingAgent}
-                onClick={() =>
-                  handleToggleAgentStatus(
-                    agentPaymentStatus === "paid" ? "unpaid" : "paid"
-                  )
-                }
-                className={`h-8 px-3 text-xs font-semibold rounded-lg cursor-pointer transition-colors ${
-                  agentPaymentStatus === "paid"
-                    ? "border-rose-200 text-rose-700 hover:bg-rose-50"
-                    : "border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                }`}
-              >
-                {isUpdatingAgent ? (
-                  <Loader2 className="h-3 w-3 animate-spin mr-1" />
-                ) : agentPaymentStatus === "paid" ? (
-                  <XCircle className="h-3.5 w-3.5 mr-1" />
-                ) : (
-                  <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
-                )}
-                Mark as {agentPaymentStatus === "paid" ? "Unpaid" : "Paid"}
-              </Button>
             </div>
-          </div>
+          )}
 
-          {/* 2. Sub-Agent Payment Status (Below Agent, shown if subAgent exists) */}
+          {/* 2. Referral Partner Payment Status (Below Channel Partner, shown if subAgent exists) */}
           {hasSubAgent && (
             <div className="bg-amber-50/40 border border-amber-200/60 p-4 rounded-xl space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Building2 className="h-4 w-4 text-amber-600" />
                   <span className="text-xs font-bold text-slate-900">
-                    Sub-Agent Payment
+                    Referral Partner Payment
                   </span>
                 </div>
                 <span className="text-[11px] font-mono text-amber-800 bg-amber-100/70 px-2 py-0.5 rounded font-medium">

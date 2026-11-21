@@ -68,7 +68,7 @@ export default function SubAgentDetailsModal({
       <DialogContent className="sm:max-w-[560px] p-0 rounded-2xl gap-0 overflow-hidden bg-white border border-slate-100 shadow-2xl">
         <div className="p-6 pb-4 border-b border-slate-100 bg-gradient-to-r from-slate-50/80 to-blue-50/30">
           <DialogTitle className="text-xl font-bold text-slate-900 tracking-tight">
-            Sub-Agent Referral Partner
+            Referral Partner Details
           </DialogTitle>
           <DialogDescription className="text-slate-500 text-xs mt-0.5">
             Full profile, referral metrics, and performance summary.
@@ -229,7 +229,7 @@ export default function SubAgentDetailsModal({
           {/* Technical IDs */}
           <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-100 space-y-1.5 text-xs text-slate-500 font-mono">
             <div className="flex items-center justify-between">
-              <span className="text-slate-400 font-sans">Sub-Agent ID:</span>
+              <span className="text-slate-400 font-sans">Partner ID:</span>
               <span className="text-slate-700">{subAgent?._id || subAgent?.id || "N/A"}</span>
             </div>
             {subAgent?.agentUserId && (

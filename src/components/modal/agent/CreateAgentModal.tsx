@@ -82,7 +82,7 @@ export default function CreateAgentModal() {
         render={
           <Button className="w-full sm:w-auto shrink-0 bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-500 hover:from-blue-700 hover:via-cyan-700 hover:to-teal-600 text-white rounded-xl h-10 shadow-sm shadow-blue-500/20 px-5 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-2">
             <Plus className="h-4 w-4" />
-            <span>Add Agent</span>
+            <span>Add Channel Partner</span>
           </Button>
         }
       />
@@ -96,10 +96,10 @@ export default function CreateAgentModal() {
             </div>
             <div>
               <DialogTitle className="text-xl font-bold text-slate-900 tracking-tight">
-                Add New Agent
+                Add New Channel Partner
               </DialogTitle>
               <DialogDescription className="text-slate-500 text-xs sm:text-sm mt-0.5">
-                Register a new agency partner representative to the platform.
+                Register a new channel partner representative to the platform.
               </DialogDescription>
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function CreateAgentModal() {
               ) : (
                 <>
                   <Sparkles className="w-4 h-4" />
-                  <span>Add Agent</span>
+                  <span>Add Channel Partner</span>
                 </>
               )}
             </Button>

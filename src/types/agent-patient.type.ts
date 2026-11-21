@@ -25,6 +25,7 @@ export interface IAgentPatientAgent {
   fullName?: string;
   email?: string;
   phone?: string;
+  role?: string;
   profileImg?: string;
   [key: string]: any;
 }
@@ -54,16 +55,20 @@ export interface IAgentPatient {
   preferredCountry?: string;
   budgetRange?: string;
   reports?: string[];
+  driveLink?: string;
   status: TAgentPatientStatus;
   timeline?: IAgentPatientTimeline;
   createdAt?: string;
   updatedAt?: string;
 
-  // Commission & Payment fields
+  // Revenue & Commission & Payment fields
+  revenue?: number;
   commissionFee?: number;
   paymentStatus?: TPaymentStatus;
+  agentCommissionPercentage?: number;
   agentCommissionFee?: number;
   agentPaymentStatus?: TPaymentStatus;
+  subAgentCommissionPercentage?: number;
   subAgentCommission?: number;
   subAgentCommissionFee?: number;
   subAgentPaymentStatus?: TPaymentStatus;
@@ -73,6 +78,17 @@ export interface IAgentPatient {
   agent?: IAgentPatientAgent | null;
   subAgent?: IAgentPatientSubAgent | null;
   [key: string]: any;
+}
+
+export interface IAgentPatientStatusCounts {
+  all?: number;
+  submitted?: number;
+  under_review?: number;
+  confirmed?: number;
+  ongoing?: number;
+  completed?: number;
+  cancelled?: number;
+  [key: string]: number | undefined;
 }
 
 export interface IAgentPatientPaginationMeta {
@@ -86,6 +102,7 @@ export interface IGetAgentPatientsResponse {
   success: boolean;
   message: string;
   meta?: IAgentPatientPaginationMeta;
+  statusCounts?: IAgentPatientStatusCounts;
   data: IAgentPatient[];
 }
 
@@ -101,13 +118,12 @@ export interface IAgentPatientQueryParams {
 
 export interface IUpdateAgentCommissionPayload {
   patientId: string;
-  agentUserId: string;
-  agentCommissionFee: number;
+  agentCommissionPercentage: number;
 }
 
 export interface IUpdateSubAgentCommissionPayload {
   patientId: string;
-  subAgentCommissionFee: number;
+  subAgentCommissionPercentage: number;
 }
 
 export interface IUpdateAgentPaymentStatusPayload {
@@ -119,4 +135,9 @@ export interface IUpdateSubAgentPaymentStatusPayload {
   patientId: string;
   subAgentId: string;
   subAgentPaymentStatus: "paid" | "unpaid";
+}
+
+export interface IUpdateRevenuePayload {
+  patientId: string;
+  revenue: number;
 }

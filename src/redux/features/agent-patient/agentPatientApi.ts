@@ -10,6 +10,7 @@ import {
   IUpdateSubAgentCommissionPayload,
   IUpdateAgentPaymentStatusPayload,
   IUpdateSubAgentPaymentStatusPayload,
+  IUpdateRevenuePayload,
 } from "@/types/agent-patient.type";
 
 export const agentPatientApi = apiSlice.injectEndpoints({
@@ -57,12 +58,11 @@ export const agentPatientApi = apiSlice.injectEndpoints({
       { success: boolean; message: string; data: any },
       IUpdateAgentCommissionPayload
     >({
-      query: ({ patientId, agentUserId, agentCommissionFee }) => ({
+      query: ({ patientId, agentCommissionPercentage }) => ({
         url: `/agent-patient/update-agent-commission/${patientId}`,
         method: "PATCH",
         body: {
-          agentUserId,
-          agentCommissionFee,
+          agentCommissionPercentage,
         },
       }),
       invalidatesTags: (result) => (result?.success ? [TagTypes.AGENT_PATIENTS] : []),
@@ -87,11 +87,11 @@ export const agentPatientApi = apiSlice.injectEndpoints({
       { success: boolean; message: string; data: any },
       IUpdateSubAgentCommissionPayload
     >({
-      query: ({ patientId, subAgentCommissionFee }) => ({
+      query: ({ patientId, subAgentCommissionPercentage }) => ({
         url: `/agent-patient/update-sub-agent-commission/${patientId}`,
         method: "PATCH",
         body: {
-          subAgentCommissionFee,
+          subAgentCommissionPercentage,
         },
       }),
       invalidatesTags: (result) => (result?.success ? [TagTypes.AGENT_PATIENTS] : []),
@@ -169,6 +169,38 @@ export const agentPatientApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
+    // 5. Update Revenue
+    updateRevenue: builder.mutation<
+      { success: boolean; message: string; data: any },
+      IUpdateRevenuePayload
+    >({
+      query: ({ patientId, revenue }) => ({
+        url: `/agent-patient/update-revenue/${patientId}`,
+        method: "PATCH",
+        body: {
+          revenue,
+        },
+      }),
+      invalidatesTags: (result: any) =>
+        result?.success || result?.acknowledged || result?.data?.acknowledged
+          ? [TagTypes.AGENT_PATIENTS]
+          : [TagTypes.AGENT_PATIENTS],
+      async onQueryStarted(_arg, { queryFulfilled }) {
+        try {
+          const res = await queryFulfilled;
+          SuccessToast(
+            res?.data?.message || "Revenue updated successfully"
+          );
+        } catch (err: any) {
+          const message =
+            err?.error?.data?.message ||
+            err?.message ||
+            "Failed to update revenue";
+          ErrorToast(message);
+        }
+      },
+    }),
   }),
 });
 
@@ -178,4 +210,5 @@ export const {
   useUpdateSubAgentCommissionMutation,
   useUpdateAgentPaymentStatusMutation,
   useUpdateSubAgentPaymentStatusMutation,
+  useUpdateRevenueMutation,
 } = agentPatientApi;

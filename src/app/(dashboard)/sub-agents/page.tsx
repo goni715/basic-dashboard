@@ -98,10 +98,10 @@ function SubAgentManagementContent() {
       {/* Page Header */}
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Sub-Agents Management
+          Referral Partner Management
         </h1>
         <p className="text-slate-500 text-sm">
-          Browse, track performance, and manage referral partner sub-agents.
+          Browse, track performance, and manage referral partners.
         </p>
       </div>
 
